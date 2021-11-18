@@ -1,0 +1,13 @@
+{{#> layout_main}}
+    {{#* inline "header"}}Log in{{/inline}}
+    {{#* inline "content"}}
+        <div class="{{ pageStyles.form }}">
+            {{> input type="text" name="login" label="Login" class=pageStyles.input}}
+            {{> input type="password" name="password" label="Password" class=pageStyles.input}}
+            <div class="{{ pageStyles.button }}">
+                {{> button text="Sign in" }}
+            </div>
+            <div class="{{ pageStyles.registrationLink }}">Don’t have a account? <a href="#registration">Registration</a></div>
+        </div>
+    {{/inline}}
+{{/layout_main}}

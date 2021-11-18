@@ -1,0 +1,35 @@
+.root {
+    position: relative;
+}
+
+.label {
+    position: absolute;
+    color: var(--color-grey);
+    left: 20px;
+    transition: all 250ms;
+    font-size: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label {
+    font-size: 12px;
+    top: 12px;
+    transform: none;
+}
+
+.input {
+    width: 100%;
+    padding: 13px 20px 0;
+    height: 65px;
+    border: none;
+    background: var(--color-dark-grey);
+    border-radius: 20px;
+    color: var(--color-grey);
+}
+
+.input:focus {
+    outline: solid 2px var(--color-blue);
+}
