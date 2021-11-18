@@ -29,7 +29,6 @@
   "compressors": {
     "*": ["@parcel/compressor-raw"]
   },
-  "reporters": ["@parcel/reporter-dev-server"],
   "validators": {
     "*.{ts,tsx}": ["@parcel/validator-typescript"]
   },
