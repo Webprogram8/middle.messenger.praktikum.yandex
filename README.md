@@ -12,11 +12,11 @@ https://www.figma.com/file/MYiVahznflYyGZYrbqgVmm/Praktikum-chat?node-id=4%3A154
 
 В соответствии с заданием сверстаны страницы:
 
-1. Login
-2. Registration
-3. Account settings 
-4. Error 404 
-5. Error 500
+1. [Login](https://vigilant-tesla-d40b91.netlify.app/)
+2. [Registration](https://vigilant-tesla-d40b91.netlify.app/#registration)
+3. [Account settings](https://vigilant-tesla-d40b91.netlify.app/#account) 
+4. [Error 404](https://vigilant-tesla-d40b91.netlify.app/#page404) 
+5. [Error 500](https://vigilant-tesla-d40b91.netlify.app/#page500)
 
 ## Работа с проектом
 В проекте доступны следующие команды
