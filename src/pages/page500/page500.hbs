@@ -1,0 +1,9 @@
+{{#> layout_main}}
+    {{#* inline "header"}}500{{/inline}}
+    {{#* inline "content"}}
+        <div class="{{ pageStyles.content }}">
+            <div class="{{ pageStyles.text }}">Internal server problem. Please try again later</div>
+            {{> button text="Reload page" }}
+        </div>
+    {{/inline}}
+{{/layout_main}}

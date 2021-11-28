@@ -1,0 +1,32 @@
+{{#> layout_main}}
+    {{#* inline "header"}}Account{{/inline}}
+    {{#* inline "content"}}
+        <div class="{{ pageStyles.root }}">
+            <div class="{{ pageStyles.avatar }}">
+                <div class={{ pageStyles.avatarStub }}>
+                    <input type="file" class="{{ pageStyles.avatarInput }}" />
+                </div>
+                Avatar
+            </div>
+            <div class="{{ pageStyles.fields }}">
+                {{> input type="text" name="first_name" label="First name" class=pageStyles.firstName}}
+                {{> input type="text" name="second_name" label="Second name" class=pageStyles.secondName}}
+                {{> input type="text" name="display_name" label="Login" class=pageStyles.displayName}}
+                {{> input type="text" name="login" label="Login" class=pageStyles.login}}
+                {{> input type="text" name="email" label="Email" class=pageStyles.email}}
+                {{> input type="text" name="phone" label="Phone" class=pageStyles.phone}}
+            </div>
+            <div class="{{ pageStyles.button }}">
+                {{> button text="Save data" }}
+            </div>
+            <h2 class={{ pageStyles.sectionTitle }}>Change password</h2>
+            <div class="{{ pageStyles.passwordForm }}">
+                {{> input type="password" name="oldPassword" label="Old password" class=pageStyles.password}}
+                {{> input type="password" name="newPassword" label="Repeat password" class=pageStyles.repeatPassword}}
+            </div>
+            <div class="{{ pageStyles.button }}">
+                {{> button text="Change" }}
+            </div>
+        </div>
+    {{/inline}}
+{{/layout_main}}
