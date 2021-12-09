@@ -12,3 +12,5 @@ export type TValidationCheck = (
     value: string | null,
     formData: object
 ) => string | true;
+
+export type Class<T> = new (...args: any[]) => T;

@@ -56,6 +56,7 @@ export default class LoginPage extends Block<TContext> {
 
     handleSubmit(data: object) {
         console.log(data);
+        location.hash = "#chats";
     }
 
     componentDidMount() {
