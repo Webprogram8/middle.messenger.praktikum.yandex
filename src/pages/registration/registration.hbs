@@ -2,18 +2,20 @@
     {{#* inline "header"}}Registration{{/inline}}
     {{#* inline "content"}}
         <div class="{{ pageStyles.root }}">
-            <div class="{{ pageStyles.fields }}">
-                {{> input type="text" name="first_name" label="First name" class=pageStyles.firstName}}
-                {{> input type="text" name="second_name" label="Second name" class=pageStyles.secondName}}
-                {{> input type="text" name="login" label="Login" class=pageStyles.login}}
-                {{> input type="text" name="email" label="Email" class=pageStyles.email}}
-                {{> input type="text" name="phone" label="Phone" class=pageStyles.phone}}
-                {{> input type="password" name="password" label="Password" class=pageStyles.password}}
-                {{> input type="password" name="password2" label="Repeat password" class=pageStyles.repeatPassword}}
-            </div>
-            <div class="{{ pageStyles.button }}">
-                {{> button text="Create account" }}
-            </div>
+            <form>
+                <div class="{{ pageStyles.fields }}">
+                    <div class="{{ pageStyles.field }} {{ pageStyles.firstName }}">{{{ inputFirstName }}}</div>
+                    <div class="{{ pageStyles.field }} {{ pageStyles.secondName }}">{{{ inputSecondName }}}</div>
+                    <div class="{{ pageStyles.field }} {{ pageStyles.login }}">{{{ inputLogin }}}</div>
+                    <div class="{{ pageStyles.field }} {{ pageStyles.email }}">{{{ inputEmail }}}</div>
+                    <div class="{{ pageStyles.field }} {{ pageStyles.phone }}">{{{ inputPhone }}}</div>
+                    <div class="{{ pageStyles.field }} {{ pageStyles.password }}">{{{ inputPassword }}}</div>
+                    <div class="{{ pageStyles.field }} {{ pageStyles.repeatPassword }}">{{{ inputRepeatPassword }}}</div>
+                </div>
+                <div class="{{ pageStyles.button }}">
+                    {{{ button }}}
+                </div>
+            </form>
             <div class="{{ pageStyles.registrationLink }}">Do you have a account? <a href="#login">Log in</a></div>
         </div>
     {{/inline}}

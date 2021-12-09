@@ -1,5 +1,10 @@
 .root {
+    width: 100%;
+}
+
+.wrapper {
     position: relative;
+    width: 100%;
 }
 
 .label {
@@ -32,4 +37,13 @@
 
 .input:focus {
     outline: solid 2px var(--color-blue);
+}
+
+.error .input {
+    outline: solid 2px red;
+}
+
+.errorMessage {
+    position: absolute;
+    top: 100%;
 }

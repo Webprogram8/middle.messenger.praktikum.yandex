@@ -6,6 +6,10 @@
     max-width: 100%;
 }
 
+.field {
+    margin-bottom: 20px;
+}
+
 .fields {
     display: grid;
     grid-gap: v-form-gap;

@@ -7,23 +7,28 @@
   "devDependencies": {
     "@parcel/validator-typescript": "^2.0.1",
     "@types/handlebars": "^4.1.0",
+    "@types/uuid": "^8.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^8.2.0",
-    "eslint-config-airbnb-base": "15.0.0",
     "eslint-import-resolver-parcel": "^1.10.6",
     "eslint-plugin-import": "^2.25.2",
     "parcel": "^2.0.1",
     "parcel-plugin-handlebars-precompile": "^1.0.2",
     "postcss": "^8.3.11",
+    "postcss-modules": "^4.2.2",
     "postcss-nested": "^5.0.6",
     "prettier": "^2.4.1",
-    "typescript": ">=3.0.0"
+    "stylelint": "^14.1.0",
+    "typescript": ">=3.0.0",
+    "typescript-eslint": "^0.0.1-alpha.0"
   },
   "dependencies": {
     "autoprefixer": "^10.4.0",
     "express": "^4.17.1",
     "handlebars": "^4.7.7",
     "parcel-transformer-hbs": "^1.0.3",
-    "postcss-modules": "^4.2.2"
+    "uuid": "^8.3.2"
   },
   "engines": {
     "node": ">=12.0.0"

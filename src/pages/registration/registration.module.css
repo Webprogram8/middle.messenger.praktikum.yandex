@@ -16,6 +16,10 @@
         'password repeat_password';
 }
 
+.field {
+    margin-bottom: 20px;
+}
+
 .firstName {
     grid-area: first_name;
 }

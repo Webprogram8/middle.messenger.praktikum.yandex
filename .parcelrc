@@ -59,6 +59,9 @@
     "*.{png,jpg,jpeg,webp}": ["@parcel/transformer-image"],
     "*.svg": ["@parcel/transformer-svg"],
     "*.{xml,rss,atom}": ["@parcel/transformer-xml"],
-    "url:*": ["...", "@parcel/transformer-raw"]
+    "url:*": ["...", "@parcel/transformer-raw"],
+    "*.module.css": [
+        "parcel-transformer-ts-css-modules"
+    ]
   }
 }

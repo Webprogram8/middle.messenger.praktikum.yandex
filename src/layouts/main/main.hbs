@@ -3,7 +3,7 @@
         <img src={{ logo }} class={{ styles.logo }} alt="Logo Chatium">
     </header>
     <main>
-        <h1 class={{ styles.h1 }}>{{> header}}</h1>
+        {{#if header}}<h1 class={{ styles.h1 }}>{{> header}}</h1>{{/if}}
         <div class={{ styles.content }}>{{> content}}</div>
     </main>
 </div>

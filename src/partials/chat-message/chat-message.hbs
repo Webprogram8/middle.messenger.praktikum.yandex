@@ -1,0 +1,8 @@
+<div class="{{ styles.root }} {{#if name}}{{ styles.notYou }}{{/if}}">
+    <div class="{{ styles.message }}">{{ message }}</div>
+    <footer class="{{ styles.footer }}">
+        <div class="{{ styles.date }}">{{ date }}</div>
+        {{#if name}}<div class="{{ styles.name }}">{{ name }}</div>{{/if}}
+        {{> mini-avatar }}
+    </footer>
+</div>
