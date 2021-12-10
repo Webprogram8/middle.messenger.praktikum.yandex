@@ -1,29 +1,29 @@
 .root {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    outline: solid 2px var(--color-blue);
-    padding: 2px;
-    position: relative;
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
+	outline: solid 2px var(--color-blue);
+	padding: 2px;
+	position: relative;
 }
 
 .root::after {
-    content: '';
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--color-light-grey);
-    right: 5px;
+	content: '';
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: var(--color-light-grey);
+	right: 5px;
 }
 
 .online::after {
-    background: #90E150;
+	background: #90e150;
 }
 
 .img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    overflow: hidden;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	overflow: hidden;
 }

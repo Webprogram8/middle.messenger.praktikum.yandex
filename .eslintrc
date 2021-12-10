@@ -3,7 +3,7 @@
     "browser": true
   },
   "extends": [
-    "eslint:recommended",
+    "standard",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
@@ -16,5 +16,14 @@
   "settings": {
     "import/extensions": [".js", ".jsx", ".ts", ".tsx", ".hbs"],
     "import/resolver": "parcel"
-  }
+  },
+    "rules": {
+        "semi": [2, "always"],
+        "@typescript-eslint/ban-ts-comment": "off",
+        "no-unmodified-loop-condition": ["off"],
+        "indent": ["error", "tab"],
+        "no-tabs": ["off"],
+        "space-before-function-paren": ["error", "never"],
+        "object-curly-spacing": ["error", "never"]
+    }
 }

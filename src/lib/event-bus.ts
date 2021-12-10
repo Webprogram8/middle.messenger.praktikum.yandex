@@ -1,31 +1,27 @@
-import { list } from "postcss";
-
 type TEventName = string;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TEventHandler = (...args: any) => void;
 
 export default class EventBus {
-    listeners: Record<TEventName, TEventHandler[]> = {};
+	listeners: Record<TEventName, TEventHandler[]> = {};
 
-    on(event: TEventName, callback: TEventHandler) {
-        if (!this.listeners[event]) {
-            this.listeners[event] = [];
-        }
+	on(event: TEventName, callback: TEventHandler) {
+		if (!this.listeners[event]) {
+			this.listeners[event] = [];
+		}
 
-        this.listeners[event].push(callback);
-    }
+		this.listeners[event].push(callback);
+	}
 
-    off(event: TEventName, callback: TEventHandler) {
-        this.listeners[event] = this.listeners[event].filter(
-            (listener) => listener !== callback
-        );
-    }
+	off(event: TEventName, callback: TEventHandler) {
+		this.listeners[event] = this.listeners[event].filter((listener) => listener !== callback);
+	}
 
-    emit(event: TEventName, ...args: unknown[]) {
-        if (this.listeners[event]) {
-            this.listeners[event].forEach(function (listener) {
-                listener(...args);
-            });
-        }
-    }
+	emit(event: TEventName, ...args: unknown[]) {
+		if (this.listeners[event]) {
+			this.listeners[event].forEach((listener) => {
+				listener(...args);
+			});
+		}
+	}
 }

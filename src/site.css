@@ -1,0 +1,30 @@
+:root {
+	--font-main: 'Roboto', sans-serif;
+	--font-logo: 'Roboto Slab', serif;
+
+	--color-white: #fff;
+	--color-dark: #282a36;
+	--color-blue: #1d90f4;
+	--color-light-grey: #c4c4c4;
+	--color-grey: #637889;
+	--color-dark-grey: #323645;
+	--color-contrast-background: #424656;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+a {
+	color: var(--color-blue);
+	text-decoration: none;
+}
+
+a:hover {
+	opacity: 0.9;
+}
+
+h2 {
+	font-size: 24px;
+	color: var(--color-light-grey);
+}

@@ -1,60 +1,60 @@
 .root {
-    width: 480px;
-    max-width: 100%;
+	width: 480px;
+	max-width: 100%;
 }
 
 .fields {
-    display: grid;
-    grid-gap: 15px;
-    margin-bottom: 40px;
+	display: grid;
+	grid-gap: 15px;
+	margin-bottom: 40px;
 
-    grid-template:
-        'first_name last_name'
-        'login login'
-        'email email'
-        'phone phone'
-        'password repeat_password';
+	grid-template:
+		'first_name last_name'
+		'login login'
+		'email email'
+		'phone phone'
+		'password repeat_password';
 }
 
 .field {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .firstName {
-    grid-area: first_name;
+	grid-area: first_name;
 }
 
 .login {
-    grid-area: login;
+	grid-area: login;
 }
 
 .email {
-    grid-area: email;
+	grid-area: email;
 }
 
 .phone {
-    grid-area: phone;
+	grid-area: phone;
 }
 
 .password {
-    grid-area: password;
+	grid-area: password;
 }
 
 .repeatPassword {
-    grid-area: repeat_password;
+	grid-area: repeat_password;
 }
 
 .firstName {
-    grid-area: first_name;
+	grid-area: first_name;
 }
 
 .registrationLink {
-    color: var(--color-grey);
-    font-weight: 700;
-    font-size: 14px;
-    margin-top: 15px;
+	color: var(--color-grey);
+	font-weight: 700;
+	font-size: 14px;
+	margin-top: 15px;
 }
 
 .button {
-    margin-top: 15px;
+	margin-top: 15px;
 }
