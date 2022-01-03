@@ -3,21 +3,41 @@
     {{#* inline "content"}}
         <div class="{{ pageStyles.chatsContent }}">
             <div class="{{ pageStyles.leftColumn }}">
-                <a href="#account" class="{{ pageStyles.profileLink }}">Profile ></a>
+                <a href="{{ profileUrl }}" class="{{ pageStyles.profileLink }}">Profile ></a>
                 {{{ searchInput }}}
-                <div class="{{ pageStyles.chatList }}">
+                <div class="{{ pageStyles.chatList }}" class="chat-list">
                     {{#each chats}}
-                        {{> chat-item name=name lastMessage=lastMessage online=online hasNewMessages=hasNewMessages }}
+                        {{> chat-item id=id name=title lastMessage=last_message.content avatar=avatar online=online unreadCount=unreadCount onClick=onChatItemClick }}
                     {{/each}}
+                    <div class="{{ pageStyles.error }}">{{serverError}}</div>
+                    <form class="new-chat-form">
+                        <div class="{{ pageStyles.newChat }}">
+                            {{{ inputNewChat }}}
+                            <button class="{{ pageStyles.smallButton }}">+</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="{{ pageStyles.rightColumn }}">
                 <div class="{{ pageStyles.chatInfo }}">
                     {{#if currentChat }}
-                        {{> avatar online=online }}
+                        {{> avatar avatar=currentChat.avatar online=online }}
                         <div class="{{ pageStyles.chatInfoText }}">
-                            <div class="{{ pageStyles.name }}">{{ currentChat.name }}</div>
-                            <div class="{{ pageStyles.status }}">{{#if online }}Online{{else}}Offline{{/if}}</div>
+                            <div class="{{ pageStyles.name }}">{{ currentChat.title }}</div>
+                            <div class="{{ pageStyles.deleteChat }} delete-chat">Delete chat</div>
+                        </div>
+                        {{#each currentChatUsers}}
+                            <div>{{displayName}}</div>,
+                        {{/each}}
+                        <div class="{{ pageStyles.newUser }}">
+                            <div class="{{ pageStyles.error }}">{{newUserError}}</div>
+                            <form class="new-user-form">
+                                <div class="{{ pageStyles.newUserForm }}">
+                                    {{{ inputNewUser }}}
+                                    <input type="submit" class="{{ pageStyles.smallButton }}" name="action" value="+" />
+                                    <input type="submit" class="{{ pageStyles.smallButton }}" name="action" value="-" />
+                                </div>
+                            </form>
                         </div>
                     {{/if}}
                 </div>
@@ -26,10 +46,10 @@
                         {{#each currentChat.messages}}
                             {{> chat-message message=text name=name date=datetime }}
                         {{/each}}
-                        <form class="sendMessageForm">
+                        <form class="send-message-form">
                             <div class="{{ pageStyles.messageForm }}">
                                 {{{ messageInput }}}
-                                <button class="{{ pageStyles.sendBtn }}" />
+                                <button class="{{ pageStyles.smallButton }} {{ pageStyles.sendButton }}" />
                             </div>
                         </form>
                     {{else}}

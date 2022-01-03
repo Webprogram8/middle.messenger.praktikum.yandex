@@ -9,6 +9,8 @@
 	--color-grey: #637889;
 	--color-dark-grey: #323645;
 	--color-contrast-background: #424656;
+    --color-red: red;
+    --color-green: green;
 }
 
 * {

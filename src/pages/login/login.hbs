@@ -2,13 +2,14 @@
     {{#* inline "header"}}Log in{{/inline}}
     {{#* inline "content"}}
         <div class="{{ pageStyles.form }}">
+            <div class="{{ pageStyles.error }}">{{serverError}}</div>
             <form>
                 {{{ inputLogin }}}
                 {{{ inputPassword }}}
                 <div class="{{ pageStyles.button }}">
                     {{{ button }}}
                 </div>
-                <div class="{{ pageStyles.registrationLink }}">Don’t have a account? <a href="#registration">Registration</a></div>
+                <div class="{{ pageStyles.registrationLink }}">Don’t have a account? <a href="{{ registrationUrl }}">Registration</a></div>
             </form>
         </div>
     {{/inline}}

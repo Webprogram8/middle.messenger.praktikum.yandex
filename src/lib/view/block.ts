@@ -144,6 +144,10 @@ export default abstract class Block<Props extends TProps = TProps & TContextBase
 		return undefined;
 	}
 
+	remove() {
+		this.getContent()?.remove();
+	}
+
 	protected context(): TProps {
 		const propsAndStubs: TProps = {...this.props, _id: this._id};
 

@@ -1,6 +1,6 @@
 import '../../layouts/main';
 
-import {TContextBase, TFormErrors, TStyles} from '../../lib/types';
+import {TContextBase, TFormErrors, TStyles, TUserFormData} from '../../lib/types';
 import {Button} from '../../components/button';
 import Block from '../../lib/view/block';
 import Input from '../../components/input/input';
@@ -13,6 +13,9 @@ import {validatePhone} from '../../lib/validation/validatePhone';
 
 import template from './registration.hbs';
 import * as pageStyles from './registration.module.css';
+import {URLS} from '../../routes';
+import AuthController from '../../controllers/AuthController';
+import {Router} from '../../lib/routing/router';
 
 type TContext = Partial<{
 	pageStyles: TStyles;
@@ -67,7 +70,8 @@ export default class RegistrationPage extends Block<TContext> {
 			'div',
 			{
 				button: new Button({text: 'Create account'}),
-				...inputs
+				...inputs,
+				loginUrl: URLS.login
 			},
 			template
 		);
@@ -91,8 +95,15 @@ export default class RegistrationPage extends Block<TContext> {
 		}
 	}
 
-	handleSubmit(data: object) {
-		console.log(data);
+	handleSubmit(data: TUserFormData) {
+		AuthController.signUp(data)
+			.then(() => {
+				this.setProps({serverError: null});
+				Router.instance().go(URLS.login);
+			})
+			.catch((serverError: string) => {
+				this.setProps({serverError});
+			});
 	}
 
 	handleErrors(errors: TFormErrors) {

@@ -4,6 +4,7 @@
     "target": "es5",
     "strict": true,
     "baseUrl": ".",
-    "lib": ["ES2021", "DOM", "DOM.Iterable"]
+    "lib": ["ES7", "DOM", "DOM.Iterable"],
+    "types": ["...", "@types/mocha"]
   }
 }

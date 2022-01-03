@@ -4,6 +4,8 @@ import {TContextBase, TStyles} from '../../lib/types';
 import Input from '../../components/input/input';
 import Block from '../../lib/view/block';
 import Form from '../../lib/form';
+import {URLS} from '../../routes';
+import AuthController from '../../controllers/AuthController';
 
 import template from './login.hbs';
 import * as pageStyles from './login.module.css';
@@ -33,7 +35,9 @@ export default class LoginPage extends Block<TContext> {
 					label: 'Password',
 					class: pageStyles.input,
 					_withInternalID: true
-				})
+				}),
+				registrationUrl: URLS.registration,
+				serverError: null
 			},
 			template
 		);
@@ -50,9 +54,10 @@ export default class LoginPage extends Block<TContext> {
 		return this.element?.getElementsByTagName('form')[0];
 	}
 
-	handleSubmit(data: object) {
-		console.log(data);
-		location.hash = '#chats';
+	handleSubmit(data: {login: string, password: string}) {
+		AuthController.signIn(data.login, data.password).catch(serverError => {
+			this.setProps({serverError});
+		});
 	}
 
 	componentDidMount() {

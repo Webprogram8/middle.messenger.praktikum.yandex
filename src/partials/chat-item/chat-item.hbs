@@ -1,7 +1,5 @@
-<button class="{{ styles.root }}">
-    <div>
-        {{> avatar online=online }}
-    </div>
+<button class="{{ styles.root }} chat-item" data-id="{{ id }}">
+    {{> avatar avatar=avatar online=online }}
     <div class="{{ styles.texts }}">
         <div class="{{ styles.name }}">{{name}}</div>
         <div class="{{ styles.lastMessage }}">
@@ -9,5 +7,5 @@
             {{lastMessage}}
         </div>
     </div>
-    {{#if hasNewMessages}}<div class="{{ styles.newIndicator }}"></div>{{/if}}
+    {{#if unreadCount}}<div class="{{ styles.newIndicator }}"></div>{{/if}}
 </button>

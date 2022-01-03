@@ -2,6 +2,9 @@
     {{#* inline "header"}}Registration{{/inline}}
     {{#* inline "content"}}
         <div class="{{ pageStyles.root }}">
+            {{#if serverError }}
+                <div class="{{ pageStyles.serverError }}">{{ serverError }}</div>
+            {{/if}}
             <form class="registrationForm">
                 <div class="{{ pageStyles.fields }}">
                     <div class="{{ pageStyles.field }} {{ pageStyles.firstName }}">{{{ inputFirstName }}}</div>
@@ -16,7 +19,7 @@
                     {{{ button }}}
                 </div>
             </form>
-            <div class="{{ pageStyles.registrationLink }}">Do you have a account? <a href="#login">Log in</a></div>
+            <div class="{{ pageStyles.registrationLink }}">Do you have a account? <a href="{{ loginUrl }}">Log in</a></div>
         </div>
     {{/inline}}
 {{/layout_main}}

@@ -1,7 +1,7 @@
 import '../../layouts/main';
 import Block from '../../lib/view/block';
 import Form from '../../lib/form';
-import {TContextBase, TFormErrors, TStyles} from '../../lib/types';
+import {TContextBase, TFormErrors, TStyles, TUserFormData} from '../../lib/types';
 import {validateLogin} from '../../lib/validation/validateLogin';
 import {validateName} from '../../lib/validation/validateName';
 import {validateEmail} from '../../lib/validation/validateEmail';
@@ -12,6 +12,9 @@ import {Button} from '../../components/button';
 
 import template from './account.hbs';
 import * as pageStyles from './account.module.css';
+import UserController from '../../controllers/UserController';
+import store from '../../lib/data/store';
+import {prepareUserData} from '../../utils/prepareUserData';
 
 type TContext = Partial<{
 	pageStyles: TStyles;
@@ -63,6 +66,19 @@ const inputs = {
 	})
 };
 
+const getInputsWithData = () => {
+	const user = store.getState().user;
+	Object.values(inputs).forEach((input) => {
+		if (user && input.name) {
+			const value = user[input.name as keyof TUserFormData];
+			if (value) {
+				input.setProps({value});
+			}
+		}
+	});
+	return inputs;
+};
+
 export default class AccountPage extends Block<TContext> {
 	settingsForm: Form | null = null;
 
@@ -76,10 +92,15 @@ export default class AccountPage extends Block<TContext> {
 			{
 				buttonSaveData: new Button({text: 'Save data'}),
 				buttonChangePassword: new Button({text: 'Change'}),
-				...inputs
+				...getInputsWithData(),
+				user: store.getState().user
 			},
 			template
 		);
+
+		store.on('user', (state) => {
+			this.setProps({user: store.getState().user});
+		});
 	}
 
 	protected context() {
@@ -97,8 +118,44 @@ export default class AccountPage extends Block<TContext> {
 		return this.element?.getElementsByClassName('accountPasswordForm')[0] as HTMLFormElement;
 	}
 
-	handleSubmit(data: object) {
-		console.log(data);
+	get avatarFormEl() {
+		return this.element?.getElementsByClassName('avatarForm')[0] as HTMLFormElement;
+	}
+
+	get avatarInputEl() {
+		return this.element?.getElementsByClassName('avatarInput')[0] as HTMLInputElement;
+	}
+
+	handleSubmit(data: TUserFormData) {
+		UserController.changeUser(data)
+			.then(() => {
+				this.setProps({serverError: null, dataMessage: 'Data saved'});
+			})
+			.catch((serverError) => {
+				this.setProps({serverError, dataMessage: null});
+			});
+	}
+
+	handlePasswordSubmit({oldPassword, newPassword}: {oldPassword: string; newPassword: string}) {
+		UserController.changePassword(oldPassword, newPassword)
+			.then(() => {
+				this.setProps({passwordServerError: null, passwordDataMessage: 'Password changed'});
+			})
+			.catch((passwordServerError) => {
+				this.setProps({passwordServerError, passwordDataMessage: null});
+			});
+	}
+
+	handleAvatarChange(event: Event) {
+		const data = new FormData(this.avatarFormEl);
+		UserController.changeAvatar(data)
+			.then((userData) => {
+				this.setProps({avatarServerError: null});
+				store.set('user', prepareUserData(userData as TUserFormData));
+			})
+			.catch((avatarServerError) => {
+				this.setProps({avatarServerError});
+			});
 	}
 
 	handleErrors(errors: TFormErrors) {
@@ -112,7 +169,6 @@ export default class AccountPage extends Block<TContext> {
 	}
 
 	componentDidMount() {
-		console.log(this.settingsFormEl);
 		if (this.settingsFormEl) {
 			this.settingsForm = new Form(this.settingsFormEl, {
 				first_name: validateName,
@@ -127,7 +183,10 @@ export default class AccountPage extends Block<TContext> {
 		}
 		if (this.passwordFormEl) {
 			this.passwordForm = new Form(this.passwordFormEl);
-			this.passwordForm.eventBus.on(Form.EVENTS.SUBMIT, this.handleSubmit.bind(this));
+			this.passwordForm.eventBus.on(Form.EVENTS.SUBMIT, this.handlePasswordSubmit.bind(this));
+		}
+		if (this.avatarFormEl) {
+			this.avatarInputEl.addEventListener('change', this.handleAvatarChange.bind(this));
 		}
 	}
 }

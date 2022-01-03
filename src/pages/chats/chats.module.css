@@ -49,6 +49,14 @@
 
 .chatInfoText {
 	margin-left: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.deleteChat {
+    cursor: pointer;
+    margin-left: 20px;
+    margin-bottom: 10px;
 }
 
 .name {
@@ -70,7 +78,7 @@
 	width: calc(100% - 60px);
 }
 
-.sendBtn {
+.smallButton {
 	width: 65px;
 	height: 65px;
 	appearance: none;
@@ -78,7 +86,26 @@
 	border: none;
 	border-radius: 20px;
 	box-sizing: border-box;
-	background: url('~/static/send.svg') var(--color-blue) no-repeat center;
 	cursor: pointer;
 	flex-shrink: 0;
+}
+
+.sendButton {
+    background: url('~/static/send.svg') var(--color-blue) no-repeat center;
+}
+
+.newChat {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+.newUserForm {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+.newUser {
+    margin-left: 20px;
 }
