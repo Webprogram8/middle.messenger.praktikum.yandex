@@ -1,6 +1,42 @@
 {{#> layout_main}}
     {{#* inline "header"}}Chats{{/inline}}
     {{#* inline "content"}}
-        Coming soon
+        <div class="{{ pageStyles.chatsContent }}">
+            <div class="{{ pageStyles.leftColumn }}">
+                <a href="#account" class="{{ pageStyles.profileLink }}">Profile ></a>
+                {{{ searchInput }}}
+                <div class="{{ pageStyles.chatList }}">
+                    {{#each chats}}
+                        {{> chat-item name=name lastMessage=lastMessage online=online hasNewMessages=hasNewMessages }}
+                    {{/each}}
+                </div>
+            </div>
+            <div class="{{ pageStyles.rightColumn }}">
+                <div class="{{ pageStyles.chatInfo }}">
+                    {{#if currentChat }}
+                        {{> avatar online=online }}
+                        <div class="{{ pageStyles.chatInfoText }}">
+                            <div class="{{ pageStyles.name }}">{{ currentChat.name }}</div>
+                            <div class="{{ pageStyles.status }}">{{#if online }}Online{{else}}Offline{{/if}}</div>
+                        </div>
+                    {{/if}}
+                </div>
+                <div class="{{ pageStyles.chat }}">
+                    {{#if currentChat }}
+                        {{#each currentChat.messages}}
+                            {{> chat-message message=text name=name date=datetime }}
+                        {{/each}}
+                        <form class="sendMessageForm">
+                            <div class="{{ pageStyles.messageForm }}">
+                                {{{ messageInput }}}
+                                <button class="{{ pageStyles.sendBtn }}" />
+                            </div>
+                        </form>
+                    {{else}}
+                        <div class="{{ pageStyles.empty }}">Select a chat to chat</div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
     {{/inline}}
 {{/layout_main}}

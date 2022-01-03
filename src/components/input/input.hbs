@@ -1,4 +1,5 @@
-<div class="{{ styles.root}} {{class}}">
-    <input class="{{ styles.input }}" type="{{ type }}" name="{{ name }}" placeholder=" " />
+<div class="{{ styles.wrapper }} {{ class }} {{#if error}}{{ styles.error }}{{/if}}">
+    <input class="{{ styles.input }}" type="{{ type }}" name="{{ name }}" placeholder=" " value="{{ value }}" />
     <label for={{ name }} class="{{ styles.label }}">{{ label }}</label>
+    {{{ errorBlock }}}
 </div>

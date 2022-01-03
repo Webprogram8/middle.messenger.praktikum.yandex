@@ -1,0 +1,13 @@
+<button class="{{ styles.root }}">
+    <div>
+        {{> avatar online=online }}
+    </div>
+    <div class="{{ styles.texts }}">
+        <div class="{{ styles.name }}">{{name}}</div>
+        <div class="{{ styles.lastMessage }}">
+            {{#if author}}<span class="{{ styles.lastMessageAuthor }}">{{author}}:</span>{{/if}}
+            {{lastMessage}}
+        </div>
+    </div>
+    {{#if hasNewMessages}}<div class="{{ styles.newIndicator }}"></div>{{/if}}
+</button>

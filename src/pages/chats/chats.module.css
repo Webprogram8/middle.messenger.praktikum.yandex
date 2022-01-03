@@ -1,0 +1,84 @@
+.chatsContent {
+	display: grid;
+	grid-template-columns: 400px 1fr;
+	gap: 50px;
+}
+
+.searchInput {
+	margin-bottom: 16px;
+}
+
+.messageInput input {
+	background: var(--color-contrast-background);
+}
+
+.profileLink {
+	margin-bottom: 10px;
+	color: var(--color-light-grey);
+	font-size: 16px;
+	display: inline-block;
+}
+
+.chat {
+	border-radius: 20px;
+	background: var(--color-dark-grey);
+	position: relative;
+	padding: 30px 30px 120px;
+	min-height: 100vh;
+}
+
+.empty {
+	width: 400px;
+	line-height: 60px;
+	border-radius: 20px;
+	text-align: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: var(--color-contrast-background);
+}
+
+.chatInfo {
+	height: 64px;
+	margin-bottom: 20px;
+	margin-top: -55px;
+	padding: 0 30px;
+	display: flex;
+}
+
+.chatInfoText {
+	margin-left: 30px;
+}
+
+.name {
+	font-size: 24px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.status {
+	color: var(--color-grey);
+}
+
+.messageForm {
+	display: flex;
+	gap: 20px;
+	justify-content: space-between;
+	position: absolute;
+	bottom: 30px;
+	width: calc(100% - 60px);
+}
+
+.sendBtn {
+	width: 65px;
+	height: 65px;
+	appearance: none;
+	outline: none;
+	border: none;
+	border-radius: 20px;
+	box-sizing: border-box;
+	background: url('~/static/send.svg') var(--color-blue) no-repeat center;
+	cursor: pointer;
+	flex-shrink: 0;
+}

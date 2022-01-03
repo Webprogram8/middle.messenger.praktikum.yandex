@@ -1,0 +1,44 @@
+.root {
+	margin-bottom: 40px;
+	display: flex;
+	flex-direction: column;
+}
+
+.message {
+	border-radius: 20px 20px 4px 20px;
+	background: rgba(29, 144, 244, 0.5);
+	padding: 20px;
+	color: #fff;
+	max-width: 70%;
+	display: inline-block;
+	align-self: flex-end;
+}
+
+.notYou .message {
+	background: var(--color-contrast-background);
+	border-radius: 20px 20px 20px 4px;
+	align-self: flex-start;
+}
+
+.footer {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	margin-top: 15px;
+}
+
+.notYou .footer {
+	flex-direction: row-reverse;
+}
+
+.name {
+	margin-left: 10px;
+	font-size: 14px;
+	color: var(--color-light-grey);
+}
+
+.date {
+	margin: 0 10px;
+	font-size: 14px;
+	color: var(--color-grey);
+}
