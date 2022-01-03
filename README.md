@@ -26,4 +26,4 @@ https://www.figma.com/file/MYiVahznflYyGZYrbqgVmm/Praktikum-chat?node-id=4%3A154
 2. `build` - сборка проекта для production
 3. `start` - запуск сервера express
 
-[PR Sprint 2](https://github.com/Webprogram8/middle.messenger.praktikum.yandex/pull/2)
+[PR Sprint 3](https://github.com/Webprogram8/middle.messenger.praktikum.yandex/pull/3)
