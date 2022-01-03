@@ -13,11 +13,9 @@ https://www.figma.com/file/MYiVahznflYyGZYrbqgVmm/Praktikum-chat?node-id=4%3A154
 В соответствии с заданием сверстаны страницы:
 
 1. [Login](https://vigilant-tesla-d40b91.netlify.app/)
-2. [Chats](https://vigilant-tesla-d40b91.netlify.app/#chats)
-3. [Registration](https://vigilant-tesla-d40b91.netlify.app/#registration)
-4. [Account settings](https://vigilant-tesla-d40b91.netlify.app/#account) 
-5. [Error 404](https://vigilant-tesla-d40b91.netlify.app/#page404) 
-6. [Error 500](https://vigilant-tesla-d40b91.netlify.app/#page500)
+2. [Chats](https://vigilant-tesla-d40b91.netlify.app/messenger)
+3. [Registration](https://vigilant-tesla-d40b91.netlify.app/sign-up)
+4. [Account settings](https://vigilant-tesla-d40b91.netlify.app/settings) 
 
 ## Работа с проектом
 В проекте доступны следующие команды
