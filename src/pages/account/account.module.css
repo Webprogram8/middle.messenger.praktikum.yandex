@@ -97,7 +97,6 @@
 }
 
 .avatarImg {
-
 }
 
 .avatarInput {
@@ -111,9 +110,9 @@
 }
 
 .dataMessage {
-    color: var(--color-green);
+	color: var(--color-green);
 }
 
 .serverError {
-    color: var(--color-red);
+	color: var(--color-red);
 }

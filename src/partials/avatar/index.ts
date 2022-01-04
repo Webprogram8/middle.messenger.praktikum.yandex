@@ -7,9 +7,9 @@ import template from './avatar.hbs';
 import * as styles from './avatar.module.css';
 
 const defaultContext = {
-	avatar: avatarStub
+	avatar: avatarStub,
 };
 
 Handlebars.registerPartial('avatar', (context: object, options: object) =>
-	template({...defaultContext, ...context, styles}, options)
+	template({...defaultContext, ...context, styles}, options),
 );

@@ -3,16 +3,16 @@
     {{#* inline "content"}}
         <div class="{{ pageStyles.root }}">
             <div class="{{ pageStyles.avatar }}">
-                <form class="avatarForm" enctype="multipart/form-data" action="/" method="post">
+                <form id="avatarForm" enctype="multipart/form-data" action="/" method="post">
                     <div class="{{ pageStyles.avatarStub }}">
-                        {{#if user.avatar}}<img class="{{ pageStyles.avatarImg }}" src="https://ya-praktikum.tech/api/v2/resources{{user.avatar}}" />{{/if}}
-                        <input type="file" name="avatar" class="{{ pageStyles.avatarInput }} avatarInput" accept="image/*" />
+                        {{#if user.avatar}}<img class="{{ pageStyles.avatarImg }}" src="{{resourceUrl user.avatar}}" />{{/if}}
+                        <input type="file" name="avatar" class="{{ pageStyles.avatarInput }}" id="avatarInput" accept="image/*" />
                     </div>
                 </form>
                 {{#if avatarServerError }}<div class="{{ pageStyles.serverError }}">{{ avatarServerError }}</div>{{/if}}
                 Avatar
             </div>
-            <form class="accountSettingsForm">
+            <form id="accountSettingsForm">
                 <div class="{{ pageStyles.fields }}">
                     <div class="{{ pageStyles.field }} {{ pageStyles.firstName }}">{{{ inputFirstName }}}</div>
                     <div class="{{ pageStyles.field }} {{ pageStyles.secondName }}">{{{ inputSecondName }}}</div>
@@ -26,7 +26,7 @@
                 <div class="{{ pageStyles.button }}">{{{ buttonSaveData }}}</div>
             </form>
             <h2 class={{ pageStyles.sectionTitle }}>Change password</h2>
-            <form class="accountPasswordForm">
+            <form id="accountPasswordForm">
                 <div class="{{ pageStyles.passwordForm }}">
                     <div class="{{ pageStyles.field }} {{ pageStyles.oldPassword }}">{{{ inputOldPassword }}}</div>
                     <div class="{{ pageStyles.field }} {{ pageStyles.newPassword }}">{{{ inputNewPassword }}}</div>

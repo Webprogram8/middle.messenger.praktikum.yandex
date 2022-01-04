@@ -10,7 +10,7 @@
                         {{> chat-item id=id name=title lastMessage=last_message.content avatar=avatar online=online unreadCount=unreadCount onClick=onChatItemClick }}
                     {{/each}}
                     <div class="{{ pageStyles.error }}">{{serverError}}</div>
-                    <form class="new-chat-form">
+                    <form id="newChatForm">
                         <div class="{{ pageStyles.newChat }}">
                             {{{ inputNewChat }}}
                             <button class="{{ pageStyles.smallButton }}">+</button>
@@ -26,12 +26,9 @@
                             <div class="{{ pageStyles.name }}">{{ currentChat.title }}</div>
                             <div class="{{ pageStyles.deleteChat }} delete-chat">Delete chat</div>
                         </div>
-                        {{#each currentChatUsers}}
-                            <div>{{displayName}}</div>,
-                        {{/each}}
                         <div class="{{ pageStyles.newUser }}">
                             <div class="{{ pageStyles.error }}">{{newUserError}}</div>
-                            <form class="new-user-form">
+                            <form id="newUserForm">
                                 <div class="{{ pageStyles.newUserForm }}">
                                     {{{ inputNewUser }}}
                                     <input type="submit" class="{{ pageStyles.smallButton }}" name="action" value="+" />
@@ -46,7 +43,7 @@
                         {{#each currentChat.messages}}
                             {{> chat-message message=text name=name date=datetime }}
                         {{/each}}
-                        <form class="send-message-form">
+                        <form id="sendMessageForm">
                             <div class="{{ pageStyles.messageForm }}">
                                 {{{ messageInput }}}
                                 <button class="{{ pageStyles.smallButton }} {{ pageStyles.sendButton }}" />

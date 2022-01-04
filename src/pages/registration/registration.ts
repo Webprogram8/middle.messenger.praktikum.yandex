@@ -26,40 +26,40 @@ const inputs = {
 	inputFirstName: new Input({
 		name: 'first_name',
 		label: 'First name',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputSecondName: new Input({
 		name: 'second_name',
 		label: 'Second name',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputLogin: new Input({
 		name: 'login',
 		label: 'Login',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputEmail: new Input({
 		name: 'email',
 		label: 'Email',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputPhone: new Input({
 		name: 'phone',
 		label: 'Phone',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputPassword: new Input({
 		type: 'password',
 		name: 'password',
 		label: 'Password',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputRepeatPassword: new Input({
 		type: 'password',
 		name: 'password2',
 		label: 'Repeat password',
-		_withInternalID: true
-	})
+		_withInternalID: true,
+	}),
 };
 
 export default class RegistrationPage extends Block<TContext> {
@@ -71,21 +71,21 @@ export default class RegistrationPage extends Block<TContext> {
 			{
 				button: new Button({text: 'Create account'}),
 				...inputs,
-				loginUrl: URLS.login
+				loginUrl: URLS.login,
 			},
-			template
+			template,
 		);
 	}
 
 	protected context() {
 		return {
 			...super.context(),
-			pageStyles
+			pageStyles,
 		};
 	}
 
 	get formEl() {
-		return this.element?.getElementsByClassName('registrationForm')[0] as HTMLFormElement;
+		return document.getElementById('registrationForm') as HTMLFormElement;
 	}
 
 	validate() {
@@ -108,7 +108,7 @@ export default class RegistrationPage extends Block<TContext> {
 
 	handleErrors(errors: TFormErrors) {
 		Object.values(inputs).forEach((input) =>
-			input.setProps({error: input.name && errors[input.name]})
+			input.setProps({error: input.name && errors[input.name]}),
 		);
 	}
 
@@ -125,7 +125,7 @@ export default class RegistrationPage extends Block<TContext> {
 				password: validatePassword,
 				password2: validatePassword,
 				email: validateEmail,
-				phone: validatePhone
+				phone: validatePhone,
 			});
 			this.form.eventBus.on(Form.EVENTS.SUBMIT, this.handleSubmit.bind(this));
 			this.form.eventBus.on(Form.EVENTS.ERRORS, this.handleErrors.bind(this));

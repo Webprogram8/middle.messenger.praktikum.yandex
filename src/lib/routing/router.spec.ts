@@ -4,17 +4,17 @@ import Block from '../view/block';
 import {JSDOM} from 'jsdom';
 
 declare global {
-    namespace NodeJS {
-        interface Global {
-            document: Document;
-            window: Window;
-            navigator: Navigator;
-        }
-    }
+	namespace NodeJS {
+		interface Global {
+			document: Document;
+			window: Window;
+			navigator: Navigator;
+		}
+	}
 }
 
 const dom = new JSDOM('<!DOCTYPE html><div class="app"></div>', {
-	url: 'http://localhost:3000/'
+	url: 'http://localhost:3000/',
 });
 
 (global as any).window = dom.window;
@@ -43,7 +43,11 @@ describe('Router', () => {
 	}
 
 	function createDefaultRouter() {
-		return (new Router()).use('/page1', Page1).use('/page2', Page2).use('/page3', Page3).set404(Page404);
+		return new Router()
+			.use('/page1', Page1)
+			.use('/page2', Page2)
+			.use('/page3', Page3)
+			.set404(Page404);
 	}
 
 	beforeEach(function () {

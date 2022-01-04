@@ -15,7 +15,7 @@ class TestBlock extends Block {
 }
 
 const dom = new JSDOM('<!DOCTYPE html><html><body><div class="app"></div></body></html>', {
-	url: 'http://localhost:3000/'
+	url: 'http://localhost:3000/',
 });
 
 (global as any).window = dom.window;

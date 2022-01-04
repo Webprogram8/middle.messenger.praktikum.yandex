@@ -4,7 +4,7 @@ function isArray(value: unknown): value is [] {
 
 export default function cloneDeep<T extends object = object>(obj: T): T {
 	if (isArray(obj)) {
-		return [...obj].map((item) => typeof item === 'object' ? cloneDeep(item) : item) as T;
+		return [...obj].map((item) => (typeof item === 'object' ? cloneDeep(item) : item)) as T;
 	}
 	const result: Record<string, unknown> = Object.assign({}, obj);
 	Object.entries(result).forEach(([key, value]) => {

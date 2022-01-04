@@ -6,7 +6,7 @@ export default class UserController {
 		return new Promise((resolve, reject) =>
 			UserAPI.change(user)
 				.then(resolve)
-				.catch(({reason}) => reject(reason))
+				.catch(({reason}) => reject(reason)),
 		);
 	}
 
@@ -14,13 +14,15 @@ export default class UserController {
 		return new Promise((resolve, reject) =>
 			UserAPI.changePassword(oldPassword, newPassword)
 				.then(resolve)
-				.catch(({reason}) => reject(reason)));
+				.catch(({reason}) => reject(reason)),
+		);
 	}
 
 	public static changeAvatar(data: FormData) {
 		return new Promise((resolve, reject) =>
 			UserAPI.changeAvatar(data)
 				.then(resolve)
-				.catch(({reason}) => reject(reason)));
+				.catch(({reason}) => reject(reason)),
+		);
 	}
 }

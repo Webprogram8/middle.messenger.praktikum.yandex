@@ -10,7 +10,14 @@ function isEqual(a: Indexed, b: Indexed): boolean {
 
 	return Object.entries(a).every(([aKey, aValue]) => {
 		const bValue = b[aKey];
-		return aValue === b[aKey] || (aValue && bValue && typeof aValue === 'object' && typeof bValue === 'object' && isEqual(aValue as Indexed, bValue as Indexed));
+		return (
+			aValue === b[aKey] ||
+			(aValue &&
+				bValue &&
+				typeof aValue === 'object' &&
+				typeof bValue === 'object' &&
+				isEqual(aValue as Indexed, bValue as Indexed))
+		);
 	});
 }
 

@@ -1,6 +1,6 @@
 import '../../layouts/main';
 import {Button} from '../../components/button';
-import {TContextBase, TStyles} from '../../lib/types';
+import {TContextBase, TFormErrors, TStyles} from '../../lib/types';
 import Input from '../../components/input/input';
 import Block from '../../lib/view/block';
 import Form from '../../lib/form';
@@ -9,6 +9,9 @@ import AuthController from '../../controllers/AuthController';
 
 import template from './login.hbs';
 import * as pageStyles from './login.module.css';
+import {validateLogin} from '../../lib/validation/validateLogin';
+import {validatePassword} from '../../lib/validation/validatePassword';
+import {validateNotEmpty} from '../../lib/validation/validateNotEmpty';
 
 type TContext = Partial<{
 	pageStyles: TStyles;
@@ -27,26 +30,26 @@ export default class LoginPage extends Block<TContext> {
 					name: 'login',
 					label: 'Login',
 					class: pageStyles.input,
-					_withInternalID: true
+					_withInternalID: true,
 				}),
 				inputPassword: new Input({
 					type: 'password',
 					name: 'password',
 					label: 'Password',
 					class: pageStyles.input,
-					_withInternalID: true
+					_withInternalID: true,
 				}),
 				registrationUrl: URLS.registration,
-				serverError: null
+				serverError: null,
 			},
-			template
+			template,
 		);
 	}
 
 	protected context() {
 		return {
 			...super.context(),
-			pageStyles
+			pageStyles,
 		};
 	}
 
@@ -54,16 +57,33 @@ export default class LoginPage extends Block<TContext> {
 		return this.element?.getElementsByTagName('form')[0];
 	}
 
-	handleSubmit(data: {login: string, password: string}) {
-		AuthController.signIn(data.login, data.password).catch(serverError => {
-			this.setProps({serverError});
-		});
+	async handleSubmit(data: {login: string; password: string}) {
+		try {
+			await AuthController.signIn(data.login, data.password);
+		} catch (e: unknown) {
+			this.setProps({serverError: (e as {reason: string}).reason});
+		}
+	}
+
+	handleErrors(errors: TFormErrors) {
+		this.children.inputLogin.setProps({error: errors.login});
+		this.children.inputPassword.setProps({error: errors.password});
+	}
+
+	handleValid() {
+		this.children.inputLogin.setProps({error: undefined});
+		this.children.inputPassword.setProps({error: undefined});
 	}
 
 	componentDidMount() {
 		if (this.formEl) {
-			this.form = new Form(this.formEl);
+			this.form = new Form(this.formEl, {
+				login: validateNotEmpty,
+				password: validateNotEmpty,
+			});
 			this.form.eventBus.on(Form.EVENTS.SUBMIT, this.handleSubmit.bind(this));
+			this.form.eventBus.on(Form.EVENTS.ERRORS, this.handleErrors.bind(this));
+			this.form.eventBus.on(Form.EVENTS.VALID, this.handleValid.bind(this));
 		}
 	}
 }

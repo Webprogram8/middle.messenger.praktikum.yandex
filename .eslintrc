@@ -28,6 +28,7 @@
             "named": "never"
         }],
         "object-curly-spacing": ["error", "never"],
-        "new-cap": ["off"]
+        "new-cap": ["off"],
+        "comma-dangle": ["error","always-multiline"]
     }
 }

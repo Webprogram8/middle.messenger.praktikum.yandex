@@ -2,13 +2,14 @@ import {v4 as makeUUID} from 'uuid';
 
 import EventBus from '../../lib/event-bus';
 import {TContextBase, TProps, TTemplate} from '../../lib/types';
+import {resourceUrl} from '../../constants';
 
 export default abstract class Block<Props extends TProps = TProps & TContextBase> {
 	static EVENTS = {
 		INIT: 'init',
 		FLOW_CWM: 'flow:component-will-mount',
 		FLOW_CDM: 'flow:component-did-mount',
-		FLOW_RENDER: 'flow:render'
+		FLOW_RENDER: 'flow:render',
 	};
 
 	protected element: HTMLElement | null = null;
@@ -90,7 +91,7 @@ export default abstract class Block<Props extends TProps = TProps & TContextBase
 
 	componentDidUpdate(oldProps: TProps, newProps: TProps) {
 		return Object.entries(newProps).some(
-			([propName, propValue]) => oldProps[propName] !== propValue
+			([propName, propValue]) => oldProps[propName] !== propValue,
 		);
 	}
 
@@ -148,8 +149,12 @@ export default abstract class Block<Props extends TProps = TProps & TContextBase
 		this.getContent()?.remove();
 	}
 
+	private commonContext() {
+		return {resourceUrl};
+	}
+
 	protected context(): TProps {
-		const propsAndStubs: TProps = {...this.props, _id: this._id};
+		const propsAndStubs: TProps = {...this.commonContext(), ...this.props, _id: this._id};
 
 		Object.entries(this.children).forEach(([key, child]) => {
 			propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
@@ -170,7 +175,7 @@ export default abstract class Block<Props extends TProps = TProps & TContextBase
 			},
 			deleteProperty() {
 				throw new Error('Нет доступа');
-			}
+			},
 		});
 	}
 

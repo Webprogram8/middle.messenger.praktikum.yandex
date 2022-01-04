@@ -9,5 +9,5 @@ export const prepareUserData = (userData: TUserFormData): TUser => ({
 	role: userData.role,
 	firstName: userData.first_name,
 	secondName: userData.second_name,
-	displayName: userData.display_name
+	displayName: userData.display_name,
 });

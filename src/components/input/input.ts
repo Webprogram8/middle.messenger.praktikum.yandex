@@ -24,7 +24,7 @@ type TProps = Partial<
 >;
 
 const defaultContext: TProps = {
-	type: 'text'
+	type: 'text',
 };
 
 export default class Input extends Block<TProps> {
@@ -39,9 +39,9 @@ export default class Input extends Block<TProps> {
 				...defaultContext,
 				styles,
 				...props,
-				errorBlock: new InputError(props.error, styles.errorMessage)
+				errorBlock: new InputError(props.error, styles.errorMessage),
 			},
-			template
+			template,
 		);
 	}
 
@@ -78,7 +78,7 @@ export default class Input extends Block<TProps> {
 	protected context(): TProps {
 		return {
 			value: this.value,
-			...super.context()
+			...super.context(),
 		};
 	}
 

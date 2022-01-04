@@ -25,49 +25,49 @@ const inputs = {
 	inputFirstName: new Input({
 		name: 'first_name',
 		label: 'First name',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputSecondName: new Input({
 		name: 'second_name',
 		label: 'Second name',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputDisplayName: new Input({
 		name: 'display_name',
 		label: 'Display name',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputLogin: new Input({
 		name: 'login',
 		label: 'Login',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputEmail: new Input({
 		name: 'email',
 		label: 'Email',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputPhone: new Input({
 		name: 'phone',
 		label: 'Phone',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputOldPassword: new Input({
 		type: 'password',
 		name: 'oldPassword',
 		label: 'Old password',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputNewPassword: new Input({
 		type: 'password',
 		name: 'newPassword',
 		label: 'New password',
-		_withInternalID: true
-	})
+		_withInternalID: true,
+	}),
 };
 
 const getInputsWithData = () => {
-	const user = store.getState().user;
+	const {user} = store.getState();
 	Object.values(inputs).forEach((input) => {
 		if (user && input.name) {
 			const value = user[input.name as keyof TUserFormData];
@@ -93,9 +93,9 @@ export default class AccountPage extends Block<TContext> {
 				buttonSaveData: new Button({text: 'Save data'}),
 				buttonChangePassword: new Button({text: 'Change'}),
 				...getInputsWithData(),
-				user: store.getState().user
+				user: store.getState().user,
 			},
-			template
+			template,
 		);
 
 		store.on('user', (state) => {
@@ -106,24 +106,24 @@ export default class AccountPage extends Block<TContext> {
 	protected context() {
 		return {
 			...super.context(),
-			pageStyles
+			pageStyles,
 		};
 	}
 
 	get settingsFormEl() {
-		return this.element?.getElementsByClassName('accountSettingsForm')[0] as HTMLFormElement;
+		return document.getElementById('accountSettingsForm') as HTMLFormElement;
 	}
 
 	get passwordFormEl() {
-		return this.element?.getElementsByClassName('accountPasswordForm')[0] as HTMLFormElement;
+		return document.getElementById('accountPasswordForm') as HTMLFormElement;
 	}
 
 	get avatarFormEl() {
-		return this.element?.getElementsByClassName('avatarForm')[0] as HTMLFormElement;
+		return document.getElementById('avatarForm') as HTMLFormElement;
 	}
 
 	get avatarInputEl() {
-		return this.element?.getElementsByClassName('avatarInput')[0] as HTMLInputElement;
+		return document.getElementById('avatarInput') as HTMLInputElement;
 	}
 
 	handleSubmit(data: TUserFormData) {
@@ -160,7 +160,7 @@ export default class AccountPage extends Block<TContext> {
 
 	handleErrors(errors: TFormErrors) {
 		Object.values(inputs).forEach((input) =>
-			input.setProps({error: input.name && errors[input.name]})
+			input.setProps({error: input.name && errors[input.name]}),
 		);
 	}
 
@@ -175,7 +175,7 @@ export default class AccountPage extends Block<TContext> {
 				second_name: validateName,
 				login: validateLogin,
 				email: validateEmail,
-				phone: validatePhone
+				phone: validatePhone,
 			});
 			this.settingsForm.eventBus.on(Form.EVENTS.SUBMIT, this.handleSubmit.bind(this));
 			this.settingsForm.eventBus.on(Form.EVENTS.ERRORS, this.handleErrors.bind(this));

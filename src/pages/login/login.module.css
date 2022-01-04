@@ -19,7 +19,6 @@
 }
 
 .error {
-    margin: 20px 0;
-    color: var(--color-red);
+	margin: 20px 0;
+	color: var(--color-red);
 }
-

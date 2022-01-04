@@ -6,7 +6,7 @@ export default class Form {
 	static EVENTS = {
 		SUBMIT: 'submit',
 		VALID: 'valid',
-		ERRORS: 'errors'
+		ERRORS: 'errors',
 	};
 
 	el: HTMLFormElement;

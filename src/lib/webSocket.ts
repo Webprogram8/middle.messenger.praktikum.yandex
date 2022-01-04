@@ -1,27 +1,17 @@
-type TMessage = {
-	content: string;
-	type: string;
-};
+class WebSocketService {
+	private socket?: WebSocket;
 
-export default class WebSocketService {
-	static __instance: WebSocketService;
-	private socket;
-
-	constructor(userId?: string, chatId?: number, chatToken?: string) {
+	connect(userId?: string, chatId?: number, chatToken?: string) {
 		if (userId && chatId && chatToken) {
 			this.socket?.close();
 			this.socket = new WebSocket(
-				`wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${chatToken}`
+				`wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${chatToken}`,
 			);
 			this.socket.addEventListener('open', this.onOpen.bind(this));
 			this.socket.addEventListener('message', this.onMessage.bind(this));
 			this.socket.addEventListener('error', this.onError.bind(this));
 			this.socket.addEventListener('close', this.onClose.bind(this));
 		}
-		if (WebSocketService.__instance) {
-			return WebSocketService.__instance;
-		}
-		WebSocketService.__instance = this;
 	}
 
 	send(content: string, type = 'message') {
@@ -53,3 +43,5 @@ export default class WebSocketService {
 		console.log(`Event reason: ${event.reason}`);
 	}
 }
+
+export default new WebSocketService();

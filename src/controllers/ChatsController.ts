@@ -15,7 +15,7 @@ const prepareChatList = (chats: ReadonlyArray<TChatData>): ReadonlyArray<TChat> 
 		lastMessage: chatData.last_message,
 		unreadCount: chatData.unread_count,
 		createdBy: chatData.created_by,
-		title: chatData.title
+		title: chatData.title,
 	}));
 
 const prepareChatUsers = (users: ReadonlyArray<TUserFormData>): ReadonlyArray<TUser> =>
@@ -26,11 +26,11 @@ export default class ChatsController {
 		return new Promise((resolve, reject) =>
 			ChatAPI.getChats(payload)
 				.then((chatsJson) => {
-					const chats = prepareChatList(JSON.parse(String(chatsJson)));
+					const chats = prepareChatList(chatsJson as ReadonlyArray<TChatData>);
 					store.set('chats', chats);
 					resolve(chats);
 				})
-				.catch(({reason}) => reject(reason))
+				.catch(({reason}) => reject(reason)),
 		);
 	}
 
@@ -38,7 +38,7 @@ export default class ChatsController {
 		return new Promise((resolve, reject) =>
 			ChatAPI.createChat(title)
 				.then(resolve)
-				.catch(({reason}) => reject(reason))
+				.catch(({reason}) => reject(reason)),
 		);
 	}
 
@@ -49,14 +49,14 @@ export default class ChatsController {
 					const state = store.getState();
 					store.set(
 						'chats',
-						state.chats.filter((chat) => chat.id !== id)
+						state.chats.filter((chat) => chat.id !== id),
 					);
 					if (id === state.currentChatId) {
 						store.set('currentChatId', null);
 					}
 					resolve(true);
 				})
-				.catch(({reason}) => reject(reason))
+				.catch(({reason}) => reject(reason)),
 		);
 	}
 
@@ -66,11 +66,11 @@ export default class ChatsController {
 				.then((users) => {
 					store.set(
 						'currentChatUsers',
-						prepareChatUsers(users as ReadonlyArray<TUserFormData>)
+						prepareChatUsers(users as ReadonlyArray<TUserFormData>),
 					);
 					resolve(true);
 				})
-				.catch(({reason}) => reject(reason))
+				.catch(({reason}) => reject(reason)),
 		);
 	}
 
@@ -82,7 +82,7 @@ export default class ChatsController {
 		const token = await this.getChatToken(id);
 		const userId = store.getState().user?.id;
 		if (token && userId) {
-			const socket = new WebSocketService(String(userId), id, String(token));
+			WebSocketService.connect(String(userId), id, String(token));
 		}
 	}
 
@@ -91,9 +91,7 @@ export default class ChatsController {
 			UserAPI.searchByLogin(login)
 				// @ts-ignore
 				.then((usersJson) => {
-					const users = prepareChatUsers(
-						JSON.parse(String(usersJson)) as ReadonlyArray<TUserFormData>
-					);
+					const users = prepareChatUsers(usersJson as ReadonlyArray<TUserFormData>);
 					if (users.length > 0) {
 						resolve(users[0]);
 					} else {
@@ -103,7 +101,7 @@ export default class ChatsController {
 				.catch((error) => {
 					console.log(error);
 					reject(error.reason);
-				})
+				}),
 		);
 	}
 
@@ -111,7 +109,7 @@ export default class ChatsController {
 		return new Promise((resolve, reject) =>
 			ChatAPI.removeUsersFromChat([user], chatId)
 				.then(resolve)
-				.catch(({reason}) => reject(reason))
+				.catch(({reason}) => reject(reason)),
 		);
 	}
 
@@ -119,19 +117,19 @@ export default class ChatsController {
 		return new Promise((resolve, reject) =>
 			ChatAPI.addUsersToChat([user], chatId)
 				.then(resolve)
-				.catch(({reason}) => reject(reason))
+				.catch(({reason}) => reject(reason)),
 		);
 	}
 
 	static getChatToken(chatId: number) {
 		return new Promise((resolve, reject) =>
 			ChatAPI.getCurrentChatToken(chatId)
-				.then((resultJson) => {
-					const result = JSON.parse(String(resultJson));
-					store.set('currentChatToken', result.token);
-					resolve(String(result.token));
+				.then((result) => {
+					const {token} = result as {token: string};
+					store.set('currentChatToken', token);
+					resolve(String(token));
 				})
-				.catch(({reason}) => reject(reason))
+				.catch(({reason}) => reject(reason)),
 		);
 	}
 }

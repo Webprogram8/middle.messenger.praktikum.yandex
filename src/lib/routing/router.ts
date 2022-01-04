@@ -5,12 +5,12 @@ import {mountView} from '../dom/mountView';
 
 export class Router {
 	protected static routerObj: Router;
-	protected currentRouteObj: Route | null = null;
+	protected currentRouteObj?: Route;
 	routes: Array<Route> = [];
 	history = window.history;
-	rootQuery: TDOMSelector | null = null;
+	rootQuery?: TDOMSelector;
 
-	block404: TClass<Block> | null = null;
+	block404?: TClass<Block>;
 
 	public static instance() {
 		if (!Router.routerObj) {

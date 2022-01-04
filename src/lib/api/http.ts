@@ -1,10 +1,11 @@
 import {apiHost} from '../../constants';
+import queryStringify from '../../utils/mydash/queryStringify';
 
 export enum EMethod {
 	GET = 'GET',
 	PUT = 'PUT',
 	POST = 'POST',
-	DELETE = 'DELETE'
+	DELETE = 'DELETE',
 }
 
 type THeaders = Record<string, string>;
@@ -19,17 +20,11 @@ type TOptions = Partial<{
 	isRaw: boolean;
 }>;
 
-function queryStringify(data: Record<string, unknown>) {
-	return Object.entries(data)
-		.map(([paramName, paramValue]) => {
-			let value = paramValue;
-			if (!value && (value === null || value === undefined || isNaN(value as number))) {
-				value = '';
-			}
-			return `${paramName}=${value}`;
-		})
-		.join('&');
-}
+const defaultHeaders = {
+	credentials: 'include',
+	mode: 'cors',
+	'Content-Type': 'application/json',
+};
 
 export default class Http {
 	private prefix: string;
@@ -66,15 +61,14 @@ export default class Http {
 	request = <Response extends object>(
 		url: string,
 		options: TOptions,
-		timeout = 5000
+		timeout = 5000,
 	): Promise<Response> => {
 		const {
 			method = EMethod.GET,
 			data,
-			headers = !options.isRaw ? {'Content-Type': 'application/json'} : {},
-			isRaw
+			headers = !options.isRaw ? defaultHeaders : {},
+			isRaw,
 		} = options;
-		console.log('options', options);
 
 		return new Promise((resolve, reject) => {
 			const xhr = new XMLHttpRequest();
@@ -90,7 +84,7 @@ export default class Http {
 
 			xhr.onload = function () {
 				const response =
-					xhr.response && xhr.response[0] === '{'
+					xhr.response && ['{', '['].includes(xhr.response[0])
 						? JSON.parse(xhr.response)
 						: xhr.response;
 				if (xhr.status >= 200 && xhr.status < 300) {

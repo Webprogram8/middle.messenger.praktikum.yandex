@@ -2,7 +2,7 @@ import {set} from '../../utils/mydash/set';
 import {TChat, TUser, TUserFormData} from '../types';
 
 export enum StoreEvents {
-	Updated = 'updated'
+	Updated = 'updated',
 }
 
 type TStore = {
@@ -22,7 +22,7 @@ class Store {
 		chats: [],
 		currentChatId: null,
 		currentChatUsers: [],
-		currentChatToken: null
+		currentChatToken: null,
 	};
 
 	public getState() {

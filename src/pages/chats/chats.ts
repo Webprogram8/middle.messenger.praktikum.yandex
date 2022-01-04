@@ -31,12 +31,12 @@ export default class ChatsPage extends Block<TProps> {
 				searchInput: new Input({
 					name: 'search',
 					label: 'Search',
-					class: pageStyles.searchInput
+					class: pageStyles.searchInput,
 				}),
 				messageInput: new Input({
 					name: 'message',
 					label: 'Type something',
-					class: pageStyles.messageInput
+					class: pageStyles.messageInput,
 				}),
 				chats: [],
 				currentChat: null,
@@ -44,17 +44,17 @@ export default class ChatsPage extends Block<TProps> {
 				inputNewChat: new Input({
 					name: 'title',
 					label: 'New chat title',
-					_withInternalID: true
+					_withInternalID: true,
 				}),
 				button: new Button({text: '+', _withInternalID: true}),
 				inputNewUser: new Input({
 					name: 'login',
 					label: 'User name',
-					_withInternalID: true
+					_withInternalID: true,
 				}),
-				currentChatUsers: []
+				currentChatUsers: [],
 			},
-			template
+			template,
 		);
 
 		Store.on('chats', (state) => {
@@ -91,7 +91,7 @@ export default class ChatsPage extends Block<TProps> {
 	};
 
 	handleSubmit(data: {message: string}) {
-		new WebSocketService().send(data.message);
+		WebSocketService.send(data.message);
 		this.children.messageInput.setProps({value: ''});
 	}
 
@@ -145,15 +145,15 @@ export default class ChatsPage extends Block<TProps> {
 	}
 
 	get formEl() {
-		return this.element?.getElementsByClassName('send-message-form')[0] as HTMLFormElement;
+		return document.getElementById('sendMessageForm') as HTMLFormElement;
 	}
 
 	get newChatFormEl() {
-		return this.element?.getElementsByClassName('new-chat-form')[0] as HTMLFormElement;
+		return document.getElementById('newChatForm') as HTMLFormElement;
 	}
 
 	get newUserFormEl() {
-		return this.element?.getElementsByClassName('new-user-form')[0] as HTMLFormElement;
+		return document.getElementById('newUserForm') as HTMLFormElement;
 	}
 
 	componentDidMount() {

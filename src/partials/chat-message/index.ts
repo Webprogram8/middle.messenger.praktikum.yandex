@@ -9,9 +9,9 @@ import template from './chat-message.hbs';
 import * as styles from './chat-message.module.css';
 
 const defaultContext = {
-	avatar: avatarStub
+	avatar: avatarStub,
 };
 
 Handlebars.registerPartial('chat-message', (context: object, options: object) =>
-	template({...defaultContext, ...context, styles}, options)
+	template({...defaultContext, ...context, styles}, options),
 );

@@ -7,12 +7,13 @@ export const URLS = {
 	login: '/',
 	registration: '/sign-up',
 	chats: '/messenger',
-	settings: '/settings'
+	settings: '/settings',
+	logout: '/logout',
 };
 
 export default {
 	[URLS.login]: LoginPage,
 	[URLS.registration]: RegistrationPage,
 	[URLS.chats]: ChatsPage,
-	[URLS.settings]: AccountPage
+	[URLS.settings]: AccountPage,
 };
