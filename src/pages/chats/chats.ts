@@ -5,16 +5,37 @@ import Block from '../../lib/view/block';
 import {Input} from '../../components/input';
 import Form from '../../lib/form';
 import {validateNotEmpty} from '../../lib/validation/validateNotEmpty';
-import {TFormErrors, TProps, TUser} from '../../lib/types';
+import {TChatMessage, TChatMessageData, TFormErrors, TProps, TUser} from '../../lib/types';
 import {URLS} from '../../routes';
-import Store from '../../lib/data/store';
 
 import template from './chats.hbs';
 import * as pageStyles from './chats.module.css';
 import {Button} from '../../components/button';
 import ChatsController from '../../controllers/ChatsController';
-import {login} from '../registration/registration.module.css';
 import WebSocketService from '../../lib/webSocket';
+import store from '../../lib/data/store';
+
+const prepareMessages = (
+	messages: ReadonlyArray<TChatMessageData>,
+	users: ReadonlyArray<TUser>,
+	currentUser?: TUser,
+): ReadonlyArray<TChatMessage> =>
+	messages.map((message) => {
+		let name;
+		if (currentUser && message.user_id !== currentUser.id) {
+			const messageUser = users.find((user) => user.id === message.user_id);
+			if (messageUser) {
+				name =
+					messageUser.displayName ?? `${messageUser.firstName} ${messageUser.secondName}`;
+			}
+		}
+
+		return {
+			message: message.content,
+			name,
+			date: message.time,
+		};
+	});
 
 export default class ChatsPage extends Block<TProps> {
 	form: Form | null = null;
@@ -53,19 +74,26 @@ export default class ChatsPage extends Block<TProps> {
 					_withInternalID: true,
 				}),
 				currentChatUsers: [],
+				currentChatMessages: [],
 			},
 			template,
 		);
 
-		Store.on('chats', (state) => {
+		store.on('chats', (state) => {
 			this.setProps({chats: state.chats});
 		});
-		Store.on('currentChatId', (state) => {
+		store.on('currentChatId', (state) => {
 			const currentChat = state.chats.find((chat) => chat.id === state.currentChatId);
 			this.setProps({currentChat});
 		});
-		Store.on('currentChatUsers', ({currentChatUsers}) => {
+		store.on('currentChatUsers', ({currentChatUsers}) => {
 			this.setProps({currentChatUsers});
+		});
+		store.on('currentChatMessages', ({currentChatMessages}) => {
+			const {user, currentChatUsers} = store.getState();
+			this.setProps({
+				currentChatMessages: prepareMessages(currentChatMessages, currentChatUsers, user),
+			});
 		});
 		ChatsController.getChats();
 
@@ -82,7 +110,7 @@ export default class ChatsPage extends Block<TProps> {
 
 	handleClick = (e: MouseEvent) => {
 		const el = e.target as HTMLElement;
-		const currentChatId = Store.getState().currentChatId;
+		const currentChatId = store.getState().currentChatId;
 		if (el.classList.contains('chat-item') && el.dataset.id) {
 			ChatsController.setCurrentChat(Number(el.dataset.id));
 		} else if (el.classList.contains('delete-chat') && currentChatId) {
@@ -119,7 +147,7 @@ export default class ChatsPage extends Block<TProps> {
 		ChatsController.findUserByLogin(data.login)
 			.then((user) => {
 				const userId = (user as TUser).id;
-				const currentChatId = Store.getState().currentChatId;
+				const currentChatId = store.getState().currentChatId;
 				if (!userId || !currentChatId) {
 					return;
 				}
@@ -145,15 +173,15 @@ export default class ChatsPage extends Block<TProps> {
 	}
 
 	get formEl() {
-		return document.getElementById('sendMessageForm') as HTMLFormElement;
+		return this.element?.getElementsByClassName('sendMessageForm')[0] as HTMLFormElement;
 	}
 
 	get newChatFormEl() {
-		return document.getElementById('newChatForm') as HTMLFormElement;
+		return this.element?.getElementsByClassName('newChatForm')[0] as HTMLFormElement;
 	}
 
 	get newUserFormEl() {
-		return document.getElementById('newUserForm') as HTMLFormElement;
+		return this.element?.getElementsByClassName('newUserForm')[0] as HTMLFormElement;
 	}
 
 	componentDidMount() {

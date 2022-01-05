@@ -5,7 +5,7 @@ import {TChat, TChatsRequest, TUser, TChatData, TUserFormData} from '../lib/type
 import UserAPI from '../api/user-api';
 import ChatAPI from '../api/chat-api';
 import store from '../lib/data/store';
-import WebSocketService from '../lib/webSocket';
+import WebSocketService, {EWebSocketEvents} from '../lib/webSocket';
 import {prepareUserData} from '../utils/prepareUserData';
 
 const prepareChatList = (chats: ReadonlyArray<TChatData>): ReadonlyArray<TChat> =>
@@ -78,11 +78,13 @@ export default class ChatsController {
 		store.set('currentChatId', id);
 		store.set('currentChatUsers', []);
 		store.set('currentChatToken', '');
+		store.set('currentChatMessages', []);
 		await this.getChatUsers(id);
 		const token = await this.getChatToken(id);
 		const userId = store.getState().user?.id;
 		if (token && userId) {
 			WebSocketService.connect(String(userId), id, String(token));
+			WebSocketService.on(EWebSocketEvents.Message, this.handleWebsocketMessages.bind(this));
 		}
 	}
 
@@ -131,5 +133,17 @@ export default class ChatsController {
 				})
 				.catch(({reason}) => reject(reason)),
 		);
+	}
+
+	static handleWebsocketMessages(event: MessageEvent) {
+		if (event.type === 'message') {
+			const data = JSON.parse(event.data);
+			console.log('message', data);
+			if (Array.isArray(data)) {
+				store.set('currentChatMessages', data);
+			} else {
+				store.set('currentChatMessages', [...store.getState().currentChatMessages, data]);
+			}
+		}
 	}
 }

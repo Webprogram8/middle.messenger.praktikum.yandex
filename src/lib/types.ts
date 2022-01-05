@@ -47,7 +47,7 @@ export type TUserFormData = {
 	/* eslint-enable camelcase  */
 	login: string;
 	email: string;
-	password: string;
+	password?: string;
 	phone: string;
 	id?: number;
 	avatar?: string;
@@ -69,6 +69,12 @@ export type TChat = {
 	unreadCount: number;
 };
 
+export type TChatMessage = {
+	message: string;
+	name?: string;
+	date: string;
+};
+
 /* eslint-disable camelcase */
 export type TChatData = {
 	avatar: string;
@@ -77,5 +83,16 @@ export type TChatData = {
 	last_message: null;
 	title: string;
 	unread_count: number;
+};
+
+export type TChatMessageData = {
+	chat_id: number;
+	content: string;
+	file: string | null;
+	id: number;
+	is_read: boolean;
+	time: string;
+	type: string;
+	user_id: number;
 };
 /* eslint-enable camelcase */

@@ -5,6 +5,7 @@ import {TUserFormData} from '../lib/types';
 import {Router} from '../lib/routing/router';
 import {URLS} from '../routes';
 import store from '../lib/data/store';
+import {prepareUserData} from '../utils/prepareUserData';
 
 export default class AuthController {
 	public static async signUp(user: TUserFormData) {
@@ -19,7 +20,8 @@ export default class AuthController {
 	public static async signIn(login: string, password: string) {
 		await AuthAPI.signIn(login, password);
 		const user = await AuthAPI.user();
-		store.set('user', user);
+		console.log(user);
+		store.set('user', prepareUserData(user));
 		Router.instance().go(URLS.chats);
 	}
 
