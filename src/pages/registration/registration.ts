@@ -72,20 +72,14 @@ export default class RegistrationPage extends Block<TContext> {
 				button: new Button({text: 'Create account'}),
 				...inputs,
 				loginUrl: URLS.login,
+				pageStyles,
 			},
 			template,
 		);
 	}
 
-	protected context() {
-		return {
-			...super.context(),
-			pageStyles,
-		};
-	}
-
 	get formEl() {
-		return document.getElementById('registrationForm') as HTMLFormElement;
+		return this.element?.getElementsByClassName('registrationForm')[0] as HTMLFormElement;
 	}
 
 	validate() {

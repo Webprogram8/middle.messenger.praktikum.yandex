@@ -6,11 +6,12 @@ export enum StoreEvents {
 }
 
 type TStore = {
-	user: TUserFormData | null;
+	user?: TUser;
 	chats: ReadonlyArray<TChat>;
-	currentChatId: number | null;
+	currentChatId?: number;
 	currentChatUsers: ReadonlyArray<TUser>;
-	currentChatToken: string | null;
+	currentChatToken?: string;
+	currentChatMessages: [];
 };
 type TStoreUpdateHandler = (store: TStore) => void;
 
@@ -18,11 +19,9 @@ class Store {
 	listeners: Record<string, TStoreUpdateHandler[]> = {};
 
 	private state: TStore = {
-		user: null,
 		chats: [],
-		currentChatId: null,
 		currentChatUsers: [],
-		currentChatToken: null,
+		currentChatMessages: [],
 	};
 
 	public getState() {

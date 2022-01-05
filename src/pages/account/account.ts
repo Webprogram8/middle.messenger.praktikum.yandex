@@ -15,6 +15,7 @@ import * as pageStyles from './account.module.css';
 import UserController from '../../controllers/UserController';
 import store from '../../lib/data/store';
 import {prepareUserData} from '../../utils/prepareUserData';
+import {makeUserData} from '../../utils/makeUserData';
 
 type TContext = Partial<{
 	pageStyles: TStyles;
@@ -68,9 +69,11 @@ const inputs = {
 
 const getInputsWithData = () => {
 	const {user} = store.getState();
+	const userData = user && makeUserData(user);
+
 	Object.values(inputs).forEach((input) => {
-		if (user && input.name) {
-			const value = user[input.name as keyof TUserFormData];
+		if (userData && input.name) {
+			const value = userData[input.name as keyof TUserFormData];
 			if (value) {
 				input.setProps({value});
 			}
@@ -94,6 +97,7 @@ export default class AccountPage extends Block<TContext> {
 				buttonChangePassword: new Button({text: 'Change'}),
 				...getInputsWithData(),
 				user: store.getState().user,
+				pageStyles,
 			},
 			template,
 		);
@@ -103,27 +107,20 @@ export default class AccountPage extends Block<TContext> {
 		});
 	}
 
-	protected context() {
-		return {
-			...super.context(),
-			pageStyles,
-		};
-	}
-
 	get settingsFormEl() {
-		return document.getElementById('accountSettingsForm') as HTMLFormElement;
+		return this.element?.getElementsByClassName('accountSettingsForm')[0] as HTMLFormElement;
 	}
 
 	get passwordFormEl() {
-		return document.getElementById('accountPasswordForm') as HTMLFormElement;
+		return this.element?.getElementsByClassName('accountPasswordForm')[0] as HTMLFormElement;
 	}
 
 	get avatarFormEl() {
-		return document.getElementById('avatarForm') as HTMLFormElement;
+		return this.element?.getElementsByClassName('avatarForm')[0] as HTMLFormElement;
 	}
 
 	get avatarInputEl() {
-		return document.getElementById('avatarInput') as HTMLInputElement;
+		return this.element?.getElementsByClassName('avatarInput')[0] as HTMLInputElement;
 	}
 
 	handleSubmit(data: TUserFormData) {
@@ -185,7 +182,7 @@ export default class AccountPage extends Block<TContext> {
 			this.passwordForm = new Form(this.passwordFormEl);
 			this.passwordForm.eventBus.on(Form.EVENTS.SUBMIT, this.handlePasswordSubmit.bind(this));
 		}
-		if (this.avatarFormEl) {
+		if (this.avatarInputEl) {
 			this.avatarInputEl.addEventListener('change', this.handleAvatarChange.bind(this));
 		}
 	}

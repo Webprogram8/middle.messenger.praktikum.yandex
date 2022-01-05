@@ -10,6 +10,7 @@ import store from './lib/data/store';
 import {LoginPage} from './pages/login';
 import {resourceUrl} from './constants';
 import AuthController from './controllers/AuthController';
+import {prepareUserData} from './utils/prepareUserData';
 
 const rootSelector = '#root';
 
@@ -27,13 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	AuthAPI.user()
 		.then((user) => {
-			store.set('user', user);
+			store.set('user', prepareUserData(user));
 			router.start(rootSelector);
-			// if (document.location.pathname === URLS.login) {
-			// 	router.go(URLS.chats);
-			// }
+			if (document.location.pathname === URLS.login) {
+				router.go(URLS.chats);
+			}
 		})
-		.catch(() => {
+		.catch((e) => {
+			console.log('2222', e);
 			if (document.location.pathname !== URLS.registration) {
 				router.start(rootSelector, URLS.login);
 			} else {
