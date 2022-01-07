@@ -1,7 +1,6 @@
 :root {
 	--font-main: 'Roboto', sans-serif;
 	--font-logo: 'Roboto Slab', serif;
-
 	--color-white: #fff;
 	--color-dark: #282a36;
 	--color-blue: #1d90f4;
@@ -9,6 +8,8 @@
 	--color-grey: #637889;
 	--color-dark-grey: #323645;
 	--color-contrast-background: #424656;
+	--color-red: red;
+	--color-green: green;
 }
 
 * {

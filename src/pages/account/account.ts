@@ -1,7 +1,7 @@
 import '../../layouts/main';
 import Block from '../../lib/view/block';
 import Form from '../../lib/form';
-import {TContextBase, TFormErrors, TStyles} from '../../lib/types';
+import {TContextBase, TFormErrors, TStyles, TUserFormData} from '../../lib/types';
 import {validateLogin} from '../../lib/validation/validateLogin';
 import {validateName} from '../../lib/validation/validateName';
 import {validateEmail} from '../../lib/validation/validateEmail';
@@ -12,6 +12,10 @@ import {Button} from '../../components/button';
 
 import template from './account.hbs';
 import * as pageStyles from './account.module.css';
+import UserController from '../../controllers/UserController';
+import store from '../../lib/data/store';
+import {prepareUserData} from '../../utils/prepareUserData';
+import {makeUserData} from '../../utils/makeUserData';
 
 type TContext = Partial<{
 	pageStyles: TStyles;
@@ -22,45 +26,60 @@ const inputs = {
 	inputFirstName: new Input({
 		name: 'first_name',
 		label: 'First name',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputSecondName: new Input({
 		name: 'second_name',
 		label: 'Second name',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputDisplayName: new Input({
 		name: 'display_name',
 		label: 'Display name',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputLogin: new Input({
 		name: 'login',
 		label: 'Login',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputEmail: new Input({
 		name: 'email',
 		label: 'Email',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputPhone: new Input({
 		name: 'phone',
 		label: 'Phone',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputOldPassword: new Input({
 		type: 'password',
 		name: 'oldPassword',
 		label: 'Old password',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputNewPassword: new Input({
 		type: 'password',
 		name: 'newPassword',
 		label: 'New password',
-		_withInternalID: true
-	})
+		_withInternalID: true,
+	}),
+};
+
+const getInputsWithData = () => {
+	const {user} = store.getState();
+	const userData = user && makeUserData(user);
+
+	Object.values(inputs).forEach((input) => {
+		if (userData && input.name) {
+			const value = userData[input.name as keyof TUserFormData];
+			if (value) {
+				input.setProps({value});
+			}
+		}
+	});
+	return inputs;
 };
 
 export default class AccountPage extends Block<TContext> {
@@ -76,17 +95,16 @@ export default class AccountPage extends Block<TContext> {
 			{
 				buttonSaveData: new Button({text: 'Save data'}),
 				buttonChangePassword: new Button({text: 'Change'}),
-				...inputs
+				...getInputsWithData(),
+				user: store.getState().user,
+				pageStyles,
 			},
-			template
+			template,
 		);
-	}
 
-	protected context() {
-		return {
-			...super.context(),
-			pageStyles
-		};
+		store.on('user', (state) => {
+			this.setProps({user: store.getState().user});
+		});
 	}
 
 	get settingsFormEl() {
@@ -97,13 +115,49 @@ export default class AccountPage extends Block<TContext> {
 		return this.element?.getElementsByClassName('accountPasswordForm')[0] as HTMLFormElement;
 	}
 
-	handleSubmit(data: object) {
-		console.log(data);
+	get avatarFormEl() {
+		return this.element?.getElementsByClassName('avatarForm')[0] as HTMLFormElement;
+	}
+
+	get avatarInputEl() {
+		return this.element?.getElementsByClassName('avatarInput')[0] as HTMLInputElement;
+	}
+
+	handleSubmit(data: TUserFormData) {
+		UserController.changeUser(data)
+			.then(() => {
+				this.setProps({serverError: null, dataMessage: 'Data saved'});
+			})
+			.catch((serverError) => {
+				this.setProps({serverError, dataMessage: null});
+			});
+	}
+
+	handlePasswordSubmit({oldPassword, newPassword}: {oldPassword: string; newPassword: string}) {
+		UserController.changePassword(oldPassword, newPassword)
+			.then(() => {
+				this.setProps({passwordServerError: null, passwordDataMessage: 'Password changed'});
+			})
+			.catch((passwordServerError) => {
+				this.setProps({passwordServerError, passwordDataMessage: null});
+			});
+	}
+
+	handleAvatarChange(event: Event) {
+		const data = new FormData(this.avatarFormEl);
+		UserController.changeAvatar(data)
+			.then((userData) => {
+				this.setProps({avatarServerError: null});
+				store.set('user', prepareUserData(userData as TUserFormData));
+			})
+			.catch((avatarServerError) => {
+				this.setProps({avatarServerError});
+			});
 	}
 
 	handleErrors(errors: TFormErrors) {
 		Object.values(inputs).forEach((input) =>
-			input.setProps({error: input.name && errors[input.name]})
+			input.setProps({error: input.name && errors[input.name]}),
 		);
 	}
 
@@ -112,14 +166,13 @@ export default class AccountPage extends Block<TContext> {
 	}
 
 	componentDidMount() {
-		console.log(this.settingsFormEl);
 		if (this.settingsFormEl) {
 			this.settingsForm = new Form(this.settingsFormEl, {
 				first_name: validateName,
 				second_name: validateName,
 				login: validateLogin,
 				email: validateEmail,
-				phone: validatePhone
+				phone: validatePhone,
 			});
 			this.settingsForm.eventBus.on(Form.EVENTS.SUBMIT, this.handleSubmit.bind(this));
 			this.settingsForm.eventBus.on(Form.EVENTS.ERRORS, this.handleErrors.bind(this));
@@ -127,7 +180,10 @@ export default class AccountPage extends Block<TContext> {
 		}
 		if (this.passwordFormEl) {
 			this.passwordForm = new Form(this.passwordFormEl);
-			this.passwordForm.eventBus.on(Form.EVENTS.SUBMIT, this.handleSubmit.bind(this));
+			this.passwordForm.eventBus.on(Form.EVENTS.SUBMIT, this.handlePasswordSubmit.bind(this));
+		}
+		if (this.avatarInputEl) {
+			this.avatarInputEl.addEventListener('change', this.handleAvatarChange.bind(this));
 		}
 	}
 }

@@ -1,6 +1,6 @@
 import '../../layouts/main';
 
-import {TContextBase, TFormErrors, TStyles} from '../../lib/types';
+import {TContextBase, TFormErrors, TStyles, TUserFormData} from '../../lib/types';
 import {Button} from '../../components/button';
 import Block from '../../lib/view/block';
 import Input from '../../components/input/input';
@@ -13,6 +13,9 @@ import {validatePhone} from '../../lib/validation/validatePhone';
 
 import template from './registration.hbs';
 import * as pageStyles from './registration.module.css';
+import {URLS} from '../../routes';
+import AuthController from '../../controllers/AuthController';
+import {Router} from '../../lib/routing/router';
 
 type TContext = Partial<{
 	pageStyles: TStyles;
@@ -23,40 +26,40 @@ const inputs = {
 	inputFirstName: new Input({
 		name: 'first_name',
 		label: 'First name',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputSecondName: new Input({
 		name: 'second_name',
 		label: 'Second name',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputLogin: new Input({
 		name: 'login',
 		label: 'Login',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputEmail: new Input({
 		name: 'email',
 		label: 'Email',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputPhone: new Input({
 		name: 'phone',
 		label: 'Phone',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputPassword: new Input({
 		type: 'password',
 		name: 'password',
 		label: 'Password',
-		_withInternalID: true
+		_withInternalID: true,
 	}),
 	inputRepeatPassword: new Input({
 		type: 'password',
 		name: 'password2',
 		label: 'Repeat password',
-		_withInternalID: true
-	})
+		_withInternalID: true,
+	}),
 };
 
 export default class RegistrationPage extends Block<TContext> {
@@ -67,17 +70,12 @@ export default class RegistrationPage extends Block<TContext> {
 			'div',
 			{
 				button: new Button({text: 'Create account'}),
-				...inputs
+				...inputs,
+				loginUrl: URLS.login,
+				pageStyles,
 			},
-			template
+			template,
 		);
-	}
-
-	protected context() {
-		return {
-			...super.context(),
-			pageStyles
-		};
 	}
 
 	get formEl() {
@@ -91,13 +89,20 @@ export default class RegistrationPage extends Block<TContext> {
 		}
 	}
 
-	handleSubmit(data: object) {
-		console.log(data);
+	handleSubmit(data: TUserFormData) {
+		AuthController.signUp(data)
+			.then(() => {
+				this.setProps({serverError: null});
+				Router.instance().go(URLS.login);
+			})
+			.catch((serverError: string) => {
+				this.setProps({serverError});
+			});
 	}
 
 	handleErrors(errors: TFormErrors) {
 		Object.values(inputs).forEach((input) =>
-			input.setProps({error: input.name && errors[input.name]})
+			input.setProps({error: input.name && errors[input.name]}),
 		);
 	}
 
@@ -114,7 +119,7 @@ export default class RegistrationPage extends Block<TContext> {
 				password: validatePassword,
 				password2: validatePassword,
 				email: validateEmail,
-				phone: validatePhone
+				phone: validatePhone,
 			});
 			this.form.eventBus.on(Form.EVENTS.SUBMIT, this.handleSubmit.bind(this));
 			this.form.eventBus.on(Form.EVENTS.ERRORS, this.handleErrors.bind(this));

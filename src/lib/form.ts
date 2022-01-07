@@ -6,7 +6,7 @@ export default class Form {
 	static EVENTS = {
 		SUBMIT: 'submit',
 		VALID: 'valid',
-		ERRORS: 'errors'
+		ERRORS: 'errors',
 	};
 
 	el: HTMLFormElement;
@@ -35,6 +35,10 @@ export default class Form {
 		return validate(this.data(), this.validationConfig);
 	}
 
+	submit() {
+		this.handleSubmit();
+	}
+
 	handleValidate = () => {
 		const errors = this.validate();
 		if (Object.values(errors).length) {
@@ -44,14 +48,20 @@ export default class Form {
 		}
 	};
 
-	handleSubmit = (event: Event) => {
-		event.preventDefault();
+	handleSubmit = (event?: Event) => {
+		if (event) {
+			event.preventDefault();
+		}
 		const errors = this.validate();
 		if (!Object.values(errors).length) {
-			const dataObject = Object.fromEntries(new FormData(this.el));
+			const formData = new FormData(this.el);
+			const submitter = (event as SubmitEvent)?.submitter as HTMLInputElement;
+			if (submitter && submitter.name && submitter.value) {
+				formData.append(submitter.name, submitter.value);
+			}
+			const dataObject = Object.fromEntries(formData);
 			this.eventBus.emit(Form.EVENTS.VALID);
 			this.eventBus.emit(Form.EVENTS.SUBMIT, dataObject);
-			console.log(dataObject);
 		} else {
 			this.eventBus.emit(Form.EVENTS.ERRORS, errors);
 		}

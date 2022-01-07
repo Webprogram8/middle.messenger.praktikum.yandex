@@ -1,45 +1,45 @@
+// @ts-ignore
+import Handlebars from 'handlebars/dist/handlebars.runtime';
+
 import './site.css';
-import {LoginPage} from './pages/login';
+import {Router} from './lib/routing/router';
+import routes, {URLS} from './routes';
 import {Page404} from './pages/page404';
-import {Page500} from './pages/page500';
-import {RegistrationPage} from './pages/registration';
-import {ChatsPage} from './pages/chats';
-import {AccountPage} from './pages/account';
-import Block from './lib/view/block';
-import {Class} from './lib/types';
+import AuthAPI from './api/auth-api';
+import store from './lib/data/store';
+import {LoginPage} from './pages/login';
+import {resourceUrl} from './constants';
+import AuthController from './controllers/AuthController';
+import {prepareUserData} from './utils/prepareUserData';
 
-const pageNames = ['login', 'registration', 'chats', 'account', 'page404', 'page500'] as const;
+const rootSelector = '#root';
 
-type TPageName = typeof pageNames[number];
-
-const PAGES: Record<TPageName, Class<Block>> = {
-	login: LoginPage,
-	registration: RegistrationPage,
-	chats: ChatsPage,
-	account: AccountPage,
-	page404: Page404,
-	page500: Page500
-};
-
-const isPageName = (pageName?: string): pageName is TPageName =>
-	Boolean(pageName) && pageNames.includes(pageName as TPageName);
-
-const getCurrentPage = (): TPageName => {
-	const pageFromUrl = window.location.hash ? window.location.hash.substring(1) : undefined;
-	return isPageName(pageFromUrl) ? pageFromUrl : 'login';
-};
-
-function showCurrentPage() {
-	const CurrentPageClass = PAGES[getCurrentPage()];
-	const page = new CurrentPageClass();
-	const pageEl = page.getContent();
-	if (pageEl) {
-		document.body.replaceChildren(pageEl);
-	}
-}
+Handlebars.registerHelper('resourceUrl', (url: string) => `${resourceUrl}${url}`);
 
 document.addEventListener('DOMContentLoaded', () => {
-	showCurrentPage();
-});
+	const router = Router.instance();
+	Object.entries(routes).forEach(([url, block]) => router.use(url, block));
+	router.set404(Page404);
 
-window.addEventListener('hashchange', showCurrentPage, false);
+	if (document.location.pathname === URLS.logout) {
+		AuthController.logout();
+		router.go(URLS.login);
+	}
+
+	AuthAPI.user()
+		.then((user) => {
+			store.set('user', prepareUserData(user));
+			router.start(rootSelector);
+			if (document.location.pathname === URLS.login) {
+				router.go(URLS.chats);
+			}
+		})
+		.catch((e) => {
+			console.log('2222', e);
+			if (document.location.pathname !== URLS.registration) {
+				router.start(rootSelector, URLS.login);
+			} else {
+				router.start(rootSelector);
+			}
+		});
+});

@@ -96,6 +96,9 @@
 	overflow: hidden;
 }
 
+.avatarImg {
+}
+
 .avatarInput {
 	position: absolute;
 	width: 100%;
@@ -104,4 +107,12 @@
 	left: 0;
 	cursor: pointer;
 	opacity: 0;
+}
+
+.dataMessage {
+	color: var(--color-green);
+}
+
+.serverError {
+	color: var(--color-red);
 }

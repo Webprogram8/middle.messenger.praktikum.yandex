@@ -17,3 +17,8 @@
 .input {
 	margin: 30px 0;
 }
+
+.error {
+	margin: 20px 0;
+	color: var(--color-red);
+}

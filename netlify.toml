@@ -1,0 +1,39 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/sign-up"
+  to = "/"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/messenger"
+  to = "/"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/settings"
+  to = "/"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/404/"
+  to = "/"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/500/"
+  to = "/"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/logout"
+  to = "/"
+  status = 200
+  force = true

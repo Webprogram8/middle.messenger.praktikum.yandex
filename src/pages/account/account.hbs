@@ -3,9 +3,13 @@
     {{#* inline "content"}}
         <div class="{{ pageStyles.root }}">
             <div class="{{ pageStyles.avatar }}">
-                <div class={{ pageStyles.avatarStub }}>
-                    <input type="file" class="{{ pageStyles.avatarInput }}" />
-                </div>
+                <form class="avatarForm" enctype="multipart/form-data" action="/" method="post">
+                    <div class="{{ pageStyles.avatarStub }}">
+                        {{#if user.avatar}}<img class="{{ pageStyles.avatarImg }}" src="{{resourceUrl user.avatar}}" />{{/if}}
+                        <input type="file" name="avatar" class="{{ pageStyles.avatarInput }}" class="avatarInput" accept="image/*" />
+                    </div>
+                </form>
+                {{#if avatarServerError }}<div class="{{ pageStyles.serverError }}">{{ avatarServerError }}</div>{{/if}}
                 Avatar
             </div>
             <form class="accountSettingsForm">
@@ -17,6 +21,8 @@
                     <div class="{{ pageStyles.field }} {{ pageStyles.email }}">{{{ inputEmail }}}</div>
                     <div class="{{ pageStyles.field }} {{ pageStyles.phone }}">{{{ inputPhone }}}</div>
                 </div>
+                {{#if serverError }}<div class="{{ pageStyles.serverError }}">{{ serverError }}</div>{{/if}}
+                {{#if dataMessage }}<div class="{{ pageStyles.dataMessage }}">{{ dataMessage }}</div>{{/if}}
                 <div class="{{ pageStyles.button }}">{{{ buttonSaveData }}}</div>
             </form>
             <h2 class={{ pageStyles.sectionTitle }}>Change password</h2>
@@ -25,6 +31,8 @@
                     <div class="{{ pageStyles.field }} {{ pageStyles.oldPassword }}">{{{ inputOldPassword }}}</div>
                     <div class="{{ pageStyles.field }} {{ pageStyles.newPassword }}">{{{ inputNewPassword }}}</div>
                 </div>
+                {{#if passwordServerError }}<div class="{{ pageStyles.serverError }}">{{ passwordServerError }}</div>{{/if}}
+                {{#if passwordDataMessage }}<div class="{{ pageStyles.dataMessage }}">{{ passwordDataMessage }}</div>{{/if}}
                 <div class="{{ pageStyles.button }}">{{{ buttonChangePassword }}}</div>
             </form>
         </div>

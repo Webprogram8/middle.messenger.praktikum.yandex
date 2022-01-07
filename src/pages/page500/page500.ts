@@ -13,11 +13,11 @@ export default class Page500 extends Block<TProps> {
 			{
 				button: new Button({
 					text: 'Reload page',
-					onClick: () => window.location.reload()
+					onClick: () => window.location.reload(),
 				}),
-				pageStyles
+				pageStyles,
 			},
-			template
+			template,
 		);
 	}
 }
