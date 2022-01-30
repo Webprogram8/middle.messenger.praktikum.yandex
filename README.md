@@ -1,27 +1,82 @@
-#Chatium
+# Webpack ts starter
 
-Проект - обучающее задание по созданию чата.
+Starter for development typescript application with webpack. [Russian](docsu.md)
 
-## Дизайн
+## Clone starter
 
-Дизайн сайта разработан в Figma. Дизайн страниц переключается в Pages.
+To get started, you should run command:
 
-https://www.figma.com/file/MYiVahznflYyGZYrbqgVmm/Praktikum-chat?node-id=4%3A154
+```shell script
+git clone git@github.com:Fafnur/webpack-ts-starter.git project
+```
 
-## Страницы
+## Install dependencies
 
-В соответствии с заданием сверстаны страницы:
+After clone project, you should install dependencies:
 
+<<<<<<< Updated upstream
 1. [Login](https://vigilant-tesla-d40b91.netlify.app/)
 2. [Chats](https://vigilant-tesla-d40b91.netlify.app/messenger)
 3. [Registration](https://vigilant-tesla-d40b91.netlify.app/sign-up)
 4. [Account settings](https://vigilant-tesla-d40b91.netlify.app/settings) 
+=======
+```shell script
+yarn install
+```
+>>>>>>> Stashed changes
 
-## Работа с проектом
-В проекте доступны следующие команды
+## Development
 
-1. `dev` - сборка проекта для разработки
-2. `build` - сборка проекта для production
-3. `start` - запуск сервера express
+For development, you can use the command that runs webpack dev server:
 
+<<<<<<< Updated upstream
 [PR Sprint 3](https://github.com/Webprogram8/middle.messenger.praktikum.yandex/pull/3)
+=======
+```shell script
+yarn run serve
+```
+
+## Build 
+
+For build your application, run command:
+
+```shell script
+yarn run build
+```
+
+For build your application on production, run command:
+
+```shell script
+yarn run build:prod
+```
+
+After buld, 3 files will be generated in the dist folder:
+
+- index.html
+- bundle.js
+- style.css
+
+The `assets` folder, which will contain all the necessary files.
+
+## Add libraries
+
+For add libraries you can use command:
+
+```shell script
+yarn add <lib-name>
+``` 
+
+## Add polyfills
+
+For add polyfills you can use [core-js](https://github.com/zloirock/core-js):
+
+```shell script
+yarn add core-js
+``` 
+
+IE10 and IE11 requires the following for NgClass support on SVG elements
+
+```shell script
+yarn add classlist.js
+``` 
+>>>>>>> Stashed changes
