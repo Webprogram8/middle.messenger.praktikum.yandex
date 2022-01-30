@@ -1,0 +1,36 @@
+.root {
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
+	outline: solid 2px var(--color-blue);
+	padding: 2px;
+	position: relative;
+}
+
+.root::after {
+	content: '';
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: var(--color-light-grey);
+	right: 5px;
+}
+
+.online::after {
+	background: #90e150;
+}
+
+.img,
+.stubAvatar {
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.stubAvatar {
+	background: url(/assets/photo-stub.png) no-repeat center;
+	background-size: contain;
+	display: inline-block;
+}

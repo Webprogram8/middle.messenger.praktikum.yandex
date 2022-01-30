@@ -1,0 +1,118 @@
+@value v-form-gap: 15px;
+@value v-avatar-size: 138px;
+
+.root {
+	width: 480px;
+	max-width: 100%;
+}
+
+.field {
+	margin-bottom: 20px;
+}
+
+.fields {
+	display: grid;
+	grid-gap: v-form-gap;
+	margin-bottom: 40px;
+	width: 100%;
+
+	grid-template:
+		'first_name last_name'
+		'display_name display_name'
+		'login login'
+		'email email'
+		'phone phone'
+		'password repeat_password';
+}
+
+.firstName {
+	grid-area: first_name;
+}
+
+.displayName {
+	grid-area: display_name;
+}
+
+.login {
+	grid-area: login;
+}
+
+.email {
+	grid-area: email;
+}
+
+.phone {
+	grid-area: phone;
+}
+
+.firstName {
+	grid-area: first_name;
+}
+
+.registrationLink {
+	color: var(--color-grey);
+	font-weight: 700;
+	font-size: 14px;
+	margin-top: 15px;
+}
+
+.button {
+	margin-top: 15px;
+}
+
+.passwordForm {
+	display: grid;
+	grid-gap: v-form-gap;
+	grid-template: 'old_password new_password';
+}
+
+.sectionTitle {
+	margin-top: 50px;
+}
+
+.oldPassword {
+	grid-area: old_password;
+}
+
+.newPassword {
+	grid-area: new_password;
+}
+
+.avatar {
+	margin: 0 auto 30px;
+	width: v-avatar-size;
+	text-align: center;
+	color: var(--color-light-grey);
+}
+
+.avatarStub {
+	width: v-avatar-size;
+	height: v-avatar-size;
+	border-radius: 50%;
+	background: var(--color-dark-grey) url('/assets/avatar-stub.svg') no-repeat center;
+	margin-bottom: 15px;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+}
+
+.avatarImg {
+}
+
+.avatarInput {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+	opacity: 0;
+}
+
+.dataMessage {
+	color: var(--color-green);
+}
+
+.serverError {
+	color: var(--color-red);
+}

@@ -1,7 +1,0 @@
-{
-	// extend your base config
-	"extends": "./tsconfig.json",
-	// include all files to fix IDE linting errors
-	"include": ["**/*.ts", "**/*.tsx", "**/*.js"],
-	"exclude": ["node_modules", ".cache", "**/*.spec.ts"]
-}
